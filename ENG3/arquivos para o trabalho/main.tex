@@ -1,0 +1,1108 @@
+% Projeto Aula em Dia: versão independente e fácil de importar no Overleaf.
+% IMPORTANTE: nomeie este arquivo main.tex (NAO main.txt).
+% Compilador: pdfLaTeX. Sem anexos, o arquivo compila com resumos visuais; ZIP tem figuras originais.
+% Bibliografia incorporada: dispensa BibTeX e arquivos .bib.
+\documentclass[12pt,a4paper,oneside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{lmodern}
+\usepackage{geometry}
+\geometry{left=3cm,right=2cm,top=3cm,bottom=2cm}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=black,urlcolor=blue,citecolor=black}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{url}
+\usepackage{indentfirst}
+\usepackage{ragged2e}
+\usepackage{natbib}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage{listings}
+\definecolor{aulanavy}{HTML}{1D2D55}
+\definecolor{aulablue}{HTML}{3157BB}
+\definecolor{aulabg}{HTML}{F3F6FC}
+\lstdefinestyle{aulasql}{
+  language=SQL,
+  backgroundcolor=\color{aulabg},
+  basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\color{aulablue}\bfseries,
+  commentstyle=\color{aulanavy},
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=true,
+  numbers=left,
+  numberstyle=\tiny\color{aulanavy},
+  numbersep=7pt,
+  frame=single,
+  framerule=0.35pt,
+  framesep=5pt,
+  columns=fullflexible,
+  keepspaces=true,
+  upquote=true,
+  tabsize=2
+}
+
+% Dependencias visuais sao opcionais: main.tex funciona mesmo sem as pastas.
+% Para ter figuras originais, importe o pacote ZIP completo no Overleaf.
+\newcommand{\AulaFiguraAlternativa}[2]{%
+  \begingroup
+  \setlength{\fboxsep}{12pt}%
+  \noindent\fcolorbox{aulanavy}{aulabg}{%
+    \begin{minipage}{0.85\linewidth}
+      \centering\color{aulanavy}\bfseries #1\par\smallskip
+      \color{black}\normalfont\small #2\par
+      \smallskip\footnotesize\color{aulanavy}%
+      Figura original disponivel no pacote completo do Overleaf.
+    \end{minipage}%
+  }%
+  \endgroup
+}
+
+\renewcommand{\bibname}{Referências}
+\begin{document}
+\begin{titlepage}
+\centering
+{\large FACULDADE DE TECNOLOGIA DE ITAPETININGA\par}
+\vspace{2cm}
+{\large Enzo Alves de Souza\\ Maycon Rezende do Nascimento\\ Luiz Gustavo\par}
+\vfill
+{\bfseries\Large AULA EM DIA: PLATAFORMA DE APOIO AO PLANEJAMENTO DOCENTE COM INTELIGÊNCIA ARTIFICIAL\par}
+\vspace{1cm}
+{\large Relatório Parcial de Engenharia de Software III e Banco de Dados\par}
+\vfill
+\begin{flushright}
+\begin{minipage}{0.58\textwidth}
+Relatório técnico parcial apresentado no contexto das disciplinas de Engenharia de Software III e Banco de Dados.\\
+\textbf{Orientação:} [NOME DO(A) DOCENTE].
+\end{minipage}
+\end{flushright}
+\vfill
+{Itapetininga -- SP\\2026\par}
+\end{titlepage}
+\tableofcontents
+\clearpage
+
+\chapter{Introdução}
+A presença de recursos digitais na educação abre oportunidades para apoiar atividades pedagógicas que demandam organização, pesquisa e produção de materiais. Entre essas atividades, o planejamento de aulas requer que o professor defina objetivos de aprendizagem, selecione conteúdos, estruture estratégias didáticas e preveja formas de avaliação adequadas ao contexto de seus estudantes.
+
+O projeto \textit{Aula em Dia} propõe uma plataforma digital de apoio ao planejamento docente, com funcionalidades de organização de planos de aula e assistência por inteligência artificial (IA). A proposta é oferecer um ambiente no qual o educador possa registrar informações relevantes sobre a turma, organizar atividades e receber sugestões de conteúdos e estruturas de planejamento, preservando sua autonomia para analisar, adaptar e aprovar as recomendações geradas.
+
+Sob a perspectiva da Engenharia de Software, a construção de uma solução desse tipo exige identificação de necessidades dos usuários, elicitação e priorização de requisitos, representação das interações por protótipos e estruturação dos dados do sistema. \citet{sommerville2016} destaca a importância de processos, especificação e evolução de software; esses aspectos fundamentam as etapas planejadas neste trabalho.
+
+\section{Problema de pesquisa}
+Como uma plataforma digital com recursos de inteligência artificial pode apoiar a organização e a elaboração de planejamentos de aula, mantendo o professor no controle das decisões pedagógicas?
+
+\section{Objetivo geral}
+Projetar e documentar uma plataforma de apoio ao planejamento docente, denominada \textit{Aula em Dia}, incorporando funcionalidades de organização e assistência por IA a partir de requisitos levantados e validados com o público-alvo.
+
+\section{Objetivos específicos}
+\begin{enumerate}[label=\alph*)]
+  \item investigar necessidades e dificuldades relacionadas ao planejamento de aulas;
+  \item comparar soluções de referência e identificar oportunidades de melhoria;
+  \item especificar funcionalidades por meio de personas, histórias de usuário e backlog;
+  \item elaborar protótipos de baixa e média fidelidade para avaliar os fluxos propostos;
+  \item modelar uma base de dados coerente com os requisitos do sistema;
+  \item documentar decisões e artefatos técnicos para orientar as etapas seguintes do desenvolvimento.
+\end{enumerate}
+
+\section{Organização do relatório}
+O Capítulo 2 caracteriza o projeto e apresenta sua justificativa, público-alvo e escopo inicial. O Capítulo 3 descreve a metodologia ágil proposta. O Capítulo 4 reúne os fundamentos teóricos e técnicos. O Capítulo 5 será destinado aos artefatos de Engenharia de Software III e Banco de Dados, conforme seu desenvolvimento e validação.
+
+\chapter{Características do Projeto}
+\section{Tema e apresentação da solução}
+O \textit{Aula em Dia} é uma proposta de sistema voltado ao apoio do planejamento docente. Seu foco é auxiliar o usuário na preparação, organização e consulta de planos de aula, com a possibilidade de utilizar IA para sugerir estruturas, atividades e adaptações. As sugestões automatizadas deverão ser tratadas como subsídios revisáveis, e não como decisões pedagógicas definitivas.
+
+\section{Justificativa}
+Planejar aulas envolve conciliar objetivos pedagógicos, tempo disponível, recursos didáticos e particularidades das turmas. A proposta do \textit{Aula em Dia} parte da hipótese de que centralizar informações e oferecer apoio à elaboração de rascunhos pode facilitar a organização desse processo. Essa hipótese ainda precisa ser investigada por meio de pesquisa com usuários; não constitui, nesta fase, um resultado demonstrado.
+
+A relevância acadêmica do projeto está na aplicação integrada de técnicas de Engenharia de Software e Banco de Dados a um problema situado no contexto educacional. O projeto permite exercitar investigação de necessidades, análise de requisitos, prototipação, gestão ágil e modelagem de informações.
+
+\section{Público-alvo e partes interessadas}
+O público-alvo primário proposto é formado por professores que elaboram e organizam planos de aula. Gestores e coordenadores pedagógicos podem constituir partes interessadas secundárias, a depender dos resultados da pesquisa de requisitos. O escopo e as permissões de cada perfil serão confirmados após a coleta de dados.
+
+\section{Escopo preliminar}
+Como hipótese de produto, consideram-se as seguintes capacidades: cadastro e autenticação de usuário, organização de turmas e componentes curriculares, criação e edição de planos de aula, histórico de planejamentos e geração de sugestões assistidas por IA. As prioridades definitivas dependerão de análise com usuários e da viabilidade técnica.
+
+\section{Limitações e premissas}
+A qualidade de recomendações por IA deverá ser verificada pelo professor. A solução não substitui o julgamento profissional do docente e não pressupõe acesso a dados pessoais de estudantes. Quaisquer dados coletados para pesquisa ou uso futuro do produto deverão observar princípios de finalidade, necessidade e segurança, compatíveis com a Lei Geral de Proteção de Dados Pessoais \citep{brasil2018}.
+
+\chapter{Metodologia}
+\section{Abordagem metodológica proposta}
+Propõe-se uma abordagem incremental de desenvolvimento, apoiada no \textit{framework} Scrum para planejamento e revisão de entregas. Conforme \citet{schwaber2020}, Scrum emprega ciclos de inspeção e adaptação e organiza o trabalho ao redor de um backlog de produto. A decisão é uma \textbf{proposta inicial} para o grupo; o relatório deve ser atualizado para registrar o método efetivamente utilizado.
+
+\section{Organização e acompanhamento}
+O Product Backlog reunirá as funcionalidades identificadas, descritas como histórias de usuário e ordenadas por importância. Para visualização das atividades, propõe-se um quadro Kanban com colunas ``A fazer'', ``Em andamento'', ``Em revisão'' e ``Concluído''. O quadro é um instrumento de acompanhamento do fluxo, complementar à organização iterativa proposta.
+
+\section{Etapas planejadas}
+\begin{enumerate}
+  \item \textbf{Descoberta:} análise de soluções existentes, planejamento da pesquisa, consentimento informado e coleta de informações.
+  \item \textbf{Síntese:} organização e anonimização de respostas, matriz CSD e elaboração de personas.
+  \item \textbf{Requisitos:} descrição e priorização de histórias de usuário e definição do backlog.
+  \item \textbf{Prototipação:} criação de fluxos em baixa fidelidade e protótipos navegáveis de média fidelidade.
+  \item \textbf{Modelagem:} definição dos modelos conceitual, lógico e físico, normalização e construção dos scripts SQL.
+  \item \textbf{Avaliação:} revisão dos artefatos, identificação de inconsistências e registro das decisões tomadas pelo grupo.
+\end{enumerate}
+
+\section{Critérios de acompanhamento}
+Para cada atividade, pretende-se registrar responsável, status, evidência de conclusão e localização digital do artefato. Protótipos e modelos serão considerados concluídos somente após sua elaboração e revisão. Entrevistas e questionários serão descritos como realizados apenas depois de sua aplicação efetiva.
+
+\chapter{Fundamentação Teórica}
+\section{Engenharia de Software}
+A Engenharia de Software compreende atividades sistemáticas destinadas à especificação, construção, validação e evolução de sistemas. \citet{sommerville2016} apresenta processos de desenvolvimento e técnicas de engenharia utilizadas para produzir e manter software. No projeto, esses princípios orientam o levantamento de requisitos, a elaboração de modelos e a documentação técnica.
+
+\section{Requisitos e histórias de usuário}
+A engenharia de requisitos busca compreender necessidades das partes interessadas e transformá-las em descrições verificáveis das funcionalidades e restrições do sistema \citep{sommerville2016}. Histórias de usuário serão usadas neste trabalho como uma forma concisa de expressar funcionalidades sob a perspectiva de quem utiliza a plataforma. Elas deverão ser acompanhadas por critérios de aceitação para reduzir ambiguidades.
+
+\section{Metodologias ágeis, Scrum e Kanban}
+Métodos ágeis privilegiam ciclos curtos de feedback e adaptação. No Scrum, o Product Backlog explicita o trabalho necessário para aprimorar o produto, enquanto eventos e responsabilidades favorecem transparência, inspeção e adaptação \citep{schwaber2020}. Neste projeto, também se propõe a visualização do fluxo de tarefas por meio de um quadro Kanban, sem confundir o quadro com o framework Scrum.
+
+\section{Pesquisa com usuários, personas e prototipação}
+A pesquisa com usuários será utilizada para identificar necessidades, dificuldades e expectativas dos professores. Personas representam perfis sintéticos construídos a partir de informações investigadas; quando elaboradas antes da coleta, devem ser identificadas como hipóteses. Protótipos de baixa fidelidade permitem discutir a organização geral das telas; protótipos de média fidelidade permitem examinar com mais detalhe fluxos e navegação. A validação será documentada apenas após sua execução.
+
+\section{Banco de dados e normalização}
+Um banco de dados relacional estrutura informações em relações, normalmente representadas por tabelas com atributos e vínculos. A modelagem conceitual descreve entidades e relacionamentos em alto nível; a lógica traduz essa visão para tabelas, chaves e restrições; e a física considera implementações em um sistema gerenciador. A normalização organiza atributos e dependências para reduzir redundâncias e anomalias de atualização. A aplicação das formas normais será explicitada quando o modelo do \textit{Aula em Dia} estiver definido.
+
+\section{Inteligência artificial como recurso de apoio}
+Na proposta do \textit{Aula em Dia}, a IA é concebida como ferramenta para apoiar a produção de sugestões e rascunhos de planejamento. Seus resultados necessitam de revisão humana, pois podem apresentar imprecisões ou inadequações pedagógicas. A escolha de modelos, serviços e estratégias de integração é uma decisão técnica futura, condicionada aos requisitos e às restrições de custo, privacidade e qualidade.
+
+\section{Privacidade e proteção de dados}
+A Lei Geral de Proteção de Dados Pessoais estabelece princípios e hipóteses para tratamento de dados pessoais no Brasil \citep{brasil2018}. Para a pesquisa de requisitos, recomenda-se aplicar um termo de consentimento adequado, limitar a coleta às informações necessárias e anonimizar os registros apresentados no relatório. Para o produto, as decisões de autenticação, permissões e armazenamento deverão considerar proteção de dados desde a concepção.
+
+\chapter{Artefatos de Engenharia de Software III e Banco de Dados}
+\noindent\textbf{Situação deste capítulo:} benchmarking, planejamento da pesquisa, protopersonas, histórias de usuário, backlog e protótipo demonstrativo HTML documentados. Pesquisa real, protótipos em papel e publicação de navegação no Figma dependem de execução e evidências.
+% Seção elaborada a partir de fontes públicas consultadas em 25/10/2026.
+% NÃO representa testes com usuários, telemetria ou acesso interno às plataformas.
+\section{Benchmarking e Matriz AARR}
+\label{sec:benchmarking}
+
+\subsection{Objetivo e procedimento de análise}
+O \textit{benchmarking} consiste em comparar características de soluções de referência para identificar práticas, alternativas de projeto e oportunidades de melhoria. No projeto \textit{Aula em Dia}, o objetivo é observar como ferramentas existentes atendem às atividades de elaboração, organização e reutilização de planos de aula, além de reconhecer possibilidades de uso responsável de inteligência artificial no planejamento docente.
+
+Foi conduzida uma \textbf{análise documental exploratória} de informações públicas, disponibilizadas nas páginas oficiais de três plataformas: Teachy, MagicSchool AI e Planbook. A seleção buscou contemplar uma solução brasileira com geração de materiais pedagógicos por IA (Teachy), uma solução especializada em ferramentas de IA para professores (MagicSchool) e uma ferramenta com ênfase na gestão recorrente de planos de aula (Planbook). Os recursos foram registrados com base em páginas consultadas em \textbf{25 de outubro de 2026}. Não foram realizados testes de usabilidade, avaliações com professores nem medições de desempenho ou de adoção; por isso, as observações representam funcionalidades \emph{documentadas pelos fornecedores}, e não eficácia comprovada.
+
+\subsection{Descrição das plataformas de referência}
+\begin{description}[leftmargin=!,labelwidth=3cm]
+  \item[Teachy.] Plataforma voltada a professores, cuja documentação apresenta planejamento por período, associação a turmas e disciplinas, calendário, edição dos planejamentos gerados e criação de planos de aula com apoio de IA. As orientações publicadas também mencionam objetivos associados à Base Nacional Comum Curricular (BNCC) \citep{teachy_planejamento2026,teachy_ferramentas2026}.
+  \item[MagicSchool AI.] Plataforma educacional que disponibiliza ferramentas de geração assistida de planos de aula, atividades e avaliações. Sua ferramenta de planejamento permite informar disciplina, etapa escolar, objetivos e referenciais curriculares e, posteriormente, revisar o material produzido \citep{magicschool_planos2026,magicschool_ferramentas2026}.
+  \item[Planbook.] Solução de planejamento de aulas com organização de calendário, reutilização de planos e modelos, anexação de recursos, referências curriculares e compartilhamento controlado com outros professores \citep{planbook_professores2026}.
+\end{description}
+
+\subsection{Matriz comparativa das funcionalidades}
+A Tabela~\ref{tab:comparacao-benchmark} sintetiza apenas características observadas na documentação pública. A expressão ``não avaliado'' significa que não houve comprovação suficiente no conjunto de páginas consultadas; ela \textbf{não equivale} à inexistência da funcionalidade.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparação documental das soluções de referência}
+\label{tab:comparacao-benchmark}
+\footnotesize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{2.8cm}*{3}{>{\RaggedRight\arraybackslash}X}@{}}
+\toprule
+\textbf{Critério} & \textbf{Teachy} & \textbf{MagicSchool AI} & \textbf{Planbook} \\
+\midrule
+Elaboração de planos de aula & Sim, integrada ao planejamento & Sim, com ferramenta de IA & Sim, por editor e modelos \\
+Geração de rascunhos com IA & Documentada & Documentada & Não avaliada \\
+Organização temporal e calendário & Documentada & Não avaliada & Documentada \\
+Revisão e adaptação pelo professor & Documentada & Documentada & Documentada \\
+Referência explícita à BNCC brasileira & Documentada & Não avaliada & Não avaliada \\
+Compartilhamento ou colaboração & Planejamento colaborativo anunciado & Coleções compartilháveis de ferramentas & Compartilhamento de planos e turmas \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria, com base na documentação oficial de \citet{teachy_planejamento2026,teachy_ferramentas2026,magicschool_planos2026,magicschool_ferramentas2026,planbook_professores2026}.\end{minipage}
+\end{table}
+
+\subsection{Matriz AARR: análise da jornada de uso}
+O enunciado da disciplina solicita uma \emph{Matriz AARR}, mas não apresenta a definição de suas quatro letras. Para elaborar uma \textbf{versão preliminar explicitamente adaptada}, foram selecionadas quatro dimensões de jornada do usuário: \textbf{Aquisição}, \textbf{Ativação}, \textbf{Retenção} e \textbf{Recomendação}. A referência metodológica é o funil \textit{AARRR} (métricas piratas), cuja forma clássica compreende cinco dimensões, acrescentando \textbf{Receita} \citep{amazon_aarrr}. Neste relatório, a dimensão Receita não integra a matriz didática de quatro letras porque ainda não há modelo de monetização definido para o \textit{Aula em Dia}. \textbf{Essa interpretação precisa ser confirmada com o material da disciplina antes da entrega.}
+
+A comparação AARR descrita na Tabela~\ref{tab:matriz-aarr} é qualitativa. Mostra elementos da experiência anunciados pelos serviços e oportunidades previstas para o projeto, \textbf{sem atribuir taxas de conversão, retenção ou recomendação} a plataformas externas.
+
+\begin{table}[htbp]
+\centering
+\caption{Matriz AARR adaptada ao benchmarking do Aula em Dia}
+\label{tab:matriz-aarr}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{2cm}*{2}{>{\RaggedRight\arraybackslash}X}@{}}
+\toprule
+\textbf{Dimensão} & \textbf{Evidências documentais nas referências} & \textbf{Aplicação proposta ao Aula em Dia} \\
+\midrule
+Aquisição & Teachy e MagicSchool divulgam acesso inicial gratuito; Planbook apresenta período de avaliação de sua plataforma. & Página informativa objetiva, apresentação do benefício ao professor e caminho simples para cadastro. \\
+Ativação & Teachy descreve a criação do primeiro planejamento; MagicSchool apresenta geração de plano a partir de objetivos; Planbook permite configurar turmas e começar a planejar. & Fluxo guiado para cadastrar disciplina e turma e salvar o primeiro plano de aula, com opção de gerar rascunho por IA. \\
+Retenção & Teachy organiza aulas por calendário; Planbook permite copiar ou reaproveitar planejamentos; MagicSchool organiza ferramentas e coleções. & Histórico, edição e reutilização de planos, além de consulta por turma, disciplina e período. \\
+Recomendação & Planbook documenta compartilhamento de planos; MagicSchool possibilita compartilhar coleções de ferramentas; Teachy anuncia colaboração no planejamento. & Compartilhamento voluntário de planos selecionados, com permissões e proteção de dados. \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria, fundamentada em \citet{teachy_planejamento2026,teachy_ferramentas2026,magicschool_ferramentas2026,magicschool_planos2026,planbook_professores2026}.\end{minipage}
+\end{table}
+
+\subsection{Indicadores propostos para validação futura}
+Embora seja possível mapear oportunidades de produto sem acesso a dados privados das plataformas, a mensuração de AARR para o \textit{Aula em Dia} dependerá do desenvolvimento do sistema, da coleta legítima de informações e da autorização adequada dos participantes. Os indicadores a seguir são \textbf{propostas de avaliação}, ainda sem resultados reais:
+\begin{itemize}
+  \item \textbf{Aquisição:} número de participantes convidados que acessam a apresentação ou o protótipo e demonstram interesse em experimentar a plataforma.
+  \item \textbf{Ativação:} proporção de participantes que concluem com sucesso o fluxo de criação e salvamento de seu primeiro plano de aula durante um teste autorizado.
+  \item \textbf{Retenção:} proporção de participantes que, em uma avaliação longitudinal futura e consentida, retornam para consultar, editar ou criar novos planejamentos.
+  \item \textbf{Recomendação:} proporção de participantes que, após testar a solução, declaram que a recomendariam a outro educador (medição por questão voluntária, sem coleta desnecessária de contatos de terceiros).
+\end{itemize}
+Os quatro indicadores acima não devem ser apresentados como métricas já coletadas. Os instrumentos de coleta, eventuais registros de uso e o tratamento de dados deverão respeitar as exigências da pesquisa e a legislação aplicável.
+
+\subsection{Conclusões e oportunidades identificadas}
+A análise documental sugere quatro diretrizes preliminares para o \textit{Aula em Dia}: (i) tornar a criação de planos simples e revisável pelo professor; (ii) centralizar planejamentos por turma e período, favorecendo a organização; (iii) viabilizar a reutilização e adaptação de planejamentos anteriores; e (iv) considerar compartilhamento opcional com controle de acesso. A referência à BNCC pode ser pertinente caso a pesquisa confirme que ela integra a rotina e as necessidades dos professores participantes.
+
+Essas diretrizes são \textbf{hipóteses de requisitos}, a serem confrontadas com a pesquisa com usuários, Matriz CSD, histórias de usuário e protótipos. O benchmarking identifica possibilidades de projeto, mas não comprova aceitação, viabilidade de implementação nem superioridade em relação às plataformas comparadas.
+
+
+\section{Planejamento da pesquisa}
+\subsection{Objetivo da investigação}
+A pesquisa proposta busca compreender como professores organizam o planejamento de aulas, quais dificuldades encontram e quais funcionalidades consideram mais relevantes em uma plataforma de apoio com inteligência artificial. As informações deverão subsidiar a revisão da Matriz CSD, a construção das personas, a priorização das histórias de usuário e a evolução dos protótipos do \textit{Aula em Dia}. Trata-se de uma \textbf{etapa planejada, ainda não executada}.
+
+\subsection{Abordagem e participantes}
+Propõe-se uma investigação \textbf{exploratória e descritiva}, com análise quantitativa simples de respostas fechadas e interpretação qualitativa das respostas abertas. O público-alvo compreende docentes \textbf{com 18 anos ou mais} que desenvolvam planejamento de aulas em qualquer modalidade de ensino. A meta operacional inicial é obter \textbf{de 5 a 10 respostas válidas}, mediante amostragem não probabilística por conveniência. Esse quantitativo é uma meta viável para levantamento preliminar de requisitos; não permite generalizações estatísticas para todos os professores.
+
+\subsection{Recrutamento e procedimento}
+\begin{enumerate}
+  \item Elaborar e revisar o questionário e o termo de consentimento com o grupo e o docente responsável.
+  \item Convidar voluntariamente professores conhecidos ou alcançados por canais profissionais adequados, sem insistência ou pressão para participar.
+  \item Apresentar o TCLE antes das questões; o instrumento deve ser encerrado caso a pessoa não concorde ou não atenda aos critérios de participação.
+  \item Disponibilizar o formulário, preferencialmente configurado para não solicitar nome, e-mail, instituição de vínculo nem identificação de alunos.
+  \item Realizar leitura de clareza com um ou dois docentes, se houver tempo; corrigir ambiguidades antes da aplicação principal.
+  \item Encerrar a coleta, exportar os resultados, remover identificadores e consolidar informações relevantes para os requisitos.
+\end{enumerate}
+A duração estimada para responder é de cinco a oito minutos. A equipe definirá a data real de abertura e encerramento, que deverá constar na versão final do relatório. \textbf{Nenhuma data de coleta ou quantidade de participantes deve ser registrada como concluída antes da aplicação.}
+
+\subsection{Dimensões investigadas}
+As questões abordarão: (a) contexto de atuação sem identificação individual; (b) frequência e ferramentas de planejamento; (c) obstáculos encontrados; (d) interesse por funcionalidades de organização; (e) experiência prévia, aplicações percebidas e preocupações relacionadas à IA; e (f) sugestões abertas de melhoria.
+
+\subsection{Plano de análise}
+Os pesquisadores atribuirão identificadores artificiais (por exemplo, P01 e P02), sem vínculo com o nome de participantes. Para cada questão fechada serão calculadas \textbf{frequências absolutas}; percentuais poderão ser apresentados com o número total de respostas válidas informado. Questões de múltipla seleção serão contabilizadas por opção, admitindo totais superiores ao número de respondentes. As questões abertas serão lidas e classificadas em temas recorrentes, sem transcrição de trechos que possam permitir identificação. Os achados serão relacionados às hipóteses presentes na Matriz CSD e às funcionalidades propostas.
+
+\subsection{Cuidados éticos e limites}
+A participação será voluntária e poderá ser interrompida a qualquer momento antes do envio. Serão evitados dados pessoais desnecessários e informações sobre estudantes. O acesso aos registros será restrito à equipe e ao docente responsável, conforme necessidade. Os resultados divulgados no relatório deverão ser agregados ou efetivamente anonimizados; a simples substituição de nomes por códigos não garante anonimização quando restarem detalhes identificáveis. Para um questionário sem identificadores, pode não ser possível localizar e excluir uma resposta específica depois de enviada, o que deve ser informado previamente.
+
+O grupo deverá confirmar com o docente e, se aplicável, com a instância institucional competente o enquadramento ético da atividade. Não se presume dispensa automática de apreciação ética. Como orientações, consideram-se a Resolução CNS n.~510/2016 \citep{cns5102016} e o guia da Autoridade Nacional de Proteção de Dados sobre tratamento de dados para fins acadêmicos \citep{anpd2025}.
+
+\section{TCLE: Termo de Consentimento Livre e Esclarecido}
+\subsection{Texto proposto para apresentar aos participantes}
+\noindent\textbf{Título da pesquisa:} Levantamento de necessidades de planejamento docente para o projeto Aula em Dia.\\
+\textbf{Responsáveis:} [NOMES DOS INTEGRANTES].\\
+\textbf{Instituição e disciplina:} Faculdade de Tecnologia de Itapetininga -- Engenharia de Software III e Banco de Dados.\\
+\textbf{Contato dos responsáveis:} [E-MAIL INSTITUCIONAL OU DE CONTATO DO GRUPO].\\
+\textbf{Professor(a) responsável:} [NOME E CONTATO, SE EXIGIDO].
+
+Você está sendo convidado(a) a participar de uma pesquisa acadêmica sobre as dificuldades e necessidades de professores no planejamento de aulas. A pesquisa servirá para orientar o projeto de uma plataforma digital chamada \textit{Aula em Dia}, que poderá oferecer organização de planos de aula e sugestões geradas por inteligência artificial. Sua participação consiste em responder a um questionário on-line com duração estimada de cinco a oito minutos.
+
+A participação é \textbf{voluntária}. Você pode optar por não responder ou interromper o preenchimento antes do envio, sem qualquer penalidade. Não existe pagamento nem benefício individual garantido. O benefício esperado é contribuir para o levantamento de requisitos de uma ferramenta educacional. Os riscos previstos são baixos, envolvendo eventual desconforto ao avaliar a própria rotina profissional ou risco residual de identificação indevida das respostas; para reduzi-los, não serão solicitados nome, e-mail, instituição, dados de alunos ou outras informações de identificação direta.
+
+As respostas serão utilizadas apenas para análise acadêmica do projeto, com acesso limitado aos integrantes e ao docente responsável, e apresentação preferencialmente agregada. O grupo deverá definir, antes da aplicação, o prazo de guarda e a forma de descarte dos registros brutos: \textbf{[INSERIR PRAZO E PROCEDIMENTO]}. Quando um formulário não identifica o respondente, não é possível assegurar a retirada de sua resposta individual após o envio, pois não haverá como localizá-la com segurança. Dúvidas podem ser encaminhadas ao contato indicado acima.
+
+\noindent\textbf{Confirmação antes do questionário:}\\
+\textbf{( )} Tenho 18 anos ou mais, exerço atividade docente e, após ler as informações, \textbf{concordo voluntariamente} em participar.\\
+\textbf{( )} Não concordo em participar (encerrar o formulário sem coletar respostas).
+
+\noindent\textit{Nota de uso:} este é um \textbf{modelo para revisão do grupo e do docente}. É necessário preencher os contatos e regras de armazenamento, verificar o enquadramento institucional da pesquisa e posicionar a confirmação de consentimento antes de qualquer questão de coleta.
+
+\section{Instrumento de coleta: questionário proposto}
+\subsection{Apresentação e filtro de elegibilidade}
+Após o TCLE, confirmar o critério: ``Você tem 18 anos ou mais e atua como professor(a)?'' (Sim; Não). Em caso de resposta negativa, encerrar o instrumento. Configurar o formulário para \textbf{não coletar automaticamente e-mails} nem restringir a uma única conta, quando tais configurações implicarem identificação desnecessária. Não solicitar informações pessoais ou sobre estudantes nas respostas abertas.
+
+\subsection{Questões de pesquisa}
+\begin{enumerate}[label=\textbf{Q\arabic*.},leftmargin=1.3cm]
+ \item \textbf{Há quanto tempo você atua na docência?} Menos de 1 ano; 1 a 5 anos; 6 a 10 anos; Mais de 10 anos; Prefiro não informar. [Seleção única]
+ \item \textbf{Em qual etapa ou modalidade de ensino atua principalmente?} Educação infantil; Ensino fundamental; Ensino médio; Ensino técnico ou superior; Educação de jovens e adultos; Outra; Prefiro não informar. [Seleção única]
+ \item \textbf{Com que frequência costuma preparar ou revisar planos de aula?} Diariamente; Semanalmente; Quinzenal ou mensalmente; Conforme a necessidade; Outra. [Seleção única]
+ \item \textbf{Quais meios utiliza atualmente para planejar aulas?} Papel/caderno; Editor de textos; Planilha; Plataforma da instituição; Aplicativo especializado; Outro. [Múltipla seleção]
+ \item \textbf{Quais dificuldades encontra no planejamento?} Falta de tempo; Organização do histórico; Localização de materiais; Adequação às turmas; Definição de avaliações; Articulação com orientações curriculares; Outra; Não encontro dificuldades relevantes. [Múltipla seleção]
+ \item \textbf{Quanto tempo costuma dedicar à preparação de um plano de aula?} Menos de 30 minutos; De 30 a 60 minutos; De 1 a 2 horas; Mais de 2 horas; Varia muito. [Seleção única]
+ \item \textbf{Escolha até três recursos que seriam mais úteis em uma plataforma de planejamento.} Criar/editar planos; Reutilizar modelos; Consultar histórico; Organizar por turma e data; Exportar planos; Sugestões por IA; Referências curriculares; Compartilhar planos. [Múltipla seleção, até 3]
+ \item \textbf{Você já utilizou ferramentas de inteligência artificial para apoiar atividades de planejamento?} Nunca; Algumas vezes; Frequentemente; Prefiro não informar. [Seleção única]
+ \item \textbf{Em quais tarefas a IA poderia ser útil?} Sugerir objetivos; Sugerir atividades; Adaptar atividades; Propor avaliações; Organizar um rascunho; Não desejo utilizar IA; Outra. [Múltipla seleção]
+ \item \textbf{Quais seriam suas preocupações ao utilizar IA para planejar?} Informações incorretas; Inadequação pedagógica; Privacidade; Dificuldade de uso; Dependência da ferramenta; Nenhuma dessas; Outra. [Múltipla seleção]
+ \item \textbf{Você consideraria experimentar um protótipo do Aula em Dia, caso fosse disponibilizado futuramente?} Sim; Talvez; Não. [Seleção única; sem solicitar contato]
+ \item \textbf{Qual melhoria faria mais diferença no seu processo de planejamento de aulas?} [Resposta aberta, opcional; orientar a não mencionar pessoas, alunos ou instituições]
+\end{enumerate}
+
+\subsection{Aplicação e armazenamento dos artefatos}
+O grupo poderá transcrever as questões para um formulário eletrônico. O link público para resposta e uma cópia em PDF ou captura do instrumento deverão ser incluídos no repositório de artefatos do projeto. As respostas exportadas serão registradas na planilha de coleta anonimizada. \textbf{Situação na data desta versão: questionário preparado, aplicação ainda não comprovada.}
+
+\section{Dados coletados, anonimizados e planilhados}
+\textbf{Situação: pendente de coleta real.} Foi estruturado um modelo de planilha com identificadores artificiais e campos equivalentes às perguntas Q1--Q12. Nenhum valor de resposta foi preenchido nesta etapa. Depois da coleta, o grupo deve validar o consentimento, remover dados identificáveis e inserir neste relatório a quantidade real de respostas válidas, os resultados agregados e o link de acesso controlado aos dados adequadamente tratados. Dados brutos com informação identificável não devem ser disponibilizados em repositório público.
+
+\section{Matriz CSD}
+A Matriz CSD (Certezas, Suposições e Dúvidas) é apresentada a seguir em \textbf{versão inicial}, baseada na definição da proposta e na pesquisa documental de benchmarking. As certezas dizem respeito ao \emph{escopo decidido para o projeto} ou a características \emph{documentadas das soluções analisadas}, não a necessidades já confirmadas por docentes. As suposições e dúvidas deverão ser revisadas após a coleta.
+\begin{table}[htbp]
+\centering
+\caption{Matriz CSD preliminar do Aula em Dia}
+\label{tab:csd-inicial}
+\scriptsize
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}X>{\RaggedRight\arraybackslash}X>{\RaggedRight\arraybackslash}X@{}}
+\toprule
+\textbf{Certezas (documentais/projeto)} & \textbf{Suposições a validar} & \textbf{Dúvidas para a pesquisa} \\
+\midrule
+O Aula em Dia tem como foco proposto apoiar o planejamento docente. & Reunir planos e histórico em um mesmo local reduzirá retrabalho. & Quais são as principais dificuldades dos professores ao planejar? \\
+A análise de referência identificou ferramentas que oferecem planejamento digital e recursos de IA. & Professores desejarão receber sugestões automáticas de atividades. & Com que frequência e de que modo os professores utilizam IA? \\
+O projeto prevê que o professor revise as sugestões geradas pela IA. & Filtros por turma, disciplina e período terão alta prioridade. & Quais três funcionalidades têm maior valor percebido? \\
+A pesquisa não exige identificar estudantes nem coletar dados de escolas. & A reutilização de modelos favorecerá o uso recorrente da plataforma. & Que preocupações e condições influenciam a adoção? \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria, versão preliminar. Revisão condicionada aos dados reais da pesquisa.\end{minipage}
+\end{table}
+
+
+\section{Personas: versões individuais e consolidação}
+\label{sec:personas}
+
+\subsection{Objetivo, critérios e situação dos artefatos}
+Personas são representações sintéticas de perfis de usuários, construídas para apoiar decisões de design e tornar explícitas necessidades, objetivos e limitações de uso. Nesta etapa, foram organizadas \textbf{três propostas individuais de personas}, baseadas em hipóteses sugeridas pelo escopo do projeto e pela análise documental. \textbf{Não são retratos de professores entrevistados}, tampouco são resultados da pesquisa ainda pendente. Por isso, são tratadas como \emph{protopersonas}, sujeitas a revisão após a coleta real de dados (Seção~\ref{sec:personas}).
+
+As três versões foram elaboradas como \textbf{modelos iniciais separados para revisão e autoria efetiva de cada integrante}. A atribuição de autoria, ajustes pessoais e aprovação da síntese final devem ser registrados pelos próprios participantes antes da entrega; um texto produzido inicialmente em conjunto não deve ser apresentado como três trabalhos individuais independentes já concluídos. Os nomes e contextos das personas a seguir são \textbf{fictícios e ilustrativos}.
+
+\subsection{Versão individual proposta A --- Professora Ana Lima}
+\noindent\textbf{Responsável por revisar e assinar:} [INTEGRANTE 1].\\
+\textbf{Identificação fictícia:} Ana Lima, 34 anos; professora dos anos iniciais do Ensino Fundamental.\\
+\textbf{Cenário hipotético:} ministra aulas para diferentes componentes curriculares e prepara materiais para turmas com ritmos variados. Faz planejamentos em editor de texto e guarda modelos em pastas digitais.\\
+\textbf{Objetivo:} planejar atividades de modo organizado e adaptar aulas já elaboradas.\\
+\textbf{Possíveis dificuldades:} localizar um planejamento antigo, refazer estruturas repetidas e manter conteúdos organizados por turma.\\
+\textbf{Necessidades de interface:} navegação direta, campos claros, modelos reutilizáveis e busca por turma/data.\\
+\textbf{Funcionalidades candidatas:} cadastro de turmas, criação e consulta de planos, duplicação de planejamento.\\
+\textbf{Hipótese a verificar:} o acesso rápido ao histórico e a reutilização de modelos podem reduzir o retrabalho.
+
+\subsection{Versão individual proposta B --- Professor Bruno Martins}
+\noindent\textbf{Responsável por revisar e assinar:} [INTEGRANTE 2].\\
+\textbf{Identificação fictícia:} Bruno Martins, 41 anos; professor do Ensino Médio.\\
+\textbf{Cenário hipotético:} leciona para diversas turmas e organiza sequências didáticas em ferramentas diferentes. Tem familiaridade com aplicações web, mas prefere editar materiais antes de utilizá-los.\\
+\textbf{Objetivo:} elaborar rascunhos de planos com rapidez, mantendo autonomia sobre objetivos, atividades e avaliações.\\
+\textbf{Possíveis dificuldades:} alternar entre aplicativos e verificar se propostas automáticas são pertinentes ao conteúdo.\\
+\textbf{Necessidades de interface:} rascunhos gerados por IA identificados como sugestões, edição antes de finalizar e mensagens claras sobre limites do recurso.\\
+\textbf{Funcionalidades candidatas:} geração assistida, revisão humana, histórico e exportação.\\
+\textbf{Hipótese a verificar:} sugestões automáticas podem ser úteis quando o professor mantém controle integral da versão final.
+
+\subsection{Versão individual proposta C --- Professora Carla Ribeiro}
+\noindent\textbf{Responsável por revisar e assinar:} [INTEGRANTE 3].\\
+\textbf{Identificação fictícia:} Carla Ribeiro, 52 anos; professora da Educação de Jovens e Adultos (EJA).\\
+\textbf{Cenário hipotético:} desenvolve planejamento em computador e, ocasionalmente, em dispositivo móvel. Valoriza documentos fáceis de ler e exportar para compartilhar apenas com pessoas autorizadas.\\
+\textbf{Objetivo:} manter uma sequência de planejamento acessível e apresentar materiais em formatos usuais.\\
+\textbf{Possíveis dificuldades:} localizar opções em interfaces complexas, reorganizar planos e controlar quem acessa documentos.\\
+\textbf{Necessidades de interface:} textos legíveis, indicações claras de salvamento, exportação e permissões explícitas.\\
+\textbf{Funcionalidades candidatas:} listagem de planos, edição, exportação e compartilhamento controlado.\\
+\textbf{Hipótese a verificar:} uma navegação simples e o controle sobre a circulação de materiais são relevantes para a adoção.
+
+\subsection{Comparação das três versões}
+\begin{table}[htbp]
+\centering
+\caption{Comparação preliminar das protopersonas individuais}
+\label{tab:personas-comparadas}
+\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{2.4cm}*{3}{>{\RaggedRight\arraybackslash}X}@{}}
+\toprule
+\textbf{Aspecto} & \textbf{Ana} & \textbf{Bruno} & \textbf{Carla}\\
+\midrule
+Ênfase & Organização e reutilização & Assistência por IA e revisão & Clareza, exportação e acesso\\
+Necessidade central & Histórico por turma & Aprovação humana do conteúdo & Uso simples e compartilhamento seguro\\
+Funcionalidades relacionadas & US02, US03, US06, US07 & US03, US04, US05, US08 & US05, US06, US08, US09\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria; perfis hipotéticos, não validados com participantes.\end{minipage}
+\end{table}
+
+\subsection{Versão consolidada preliminar --- Professora Marina Costa}
+\noindent\textbf{Identificação fictícia:} Marina Costa, 39 anos; docente que atende mais de uma turma e organiza planos de aula ao longo do período letivo.\\
+\textbf{Contexto de uso:} utiliza computador e ferramentas digitais cotidianas para preparar aulas; alterna entre documentos, pastas e materiais didáticos.\\
+\textbf{Objetivo principal:} centralizar e reaproveitar planos de aula, com apoio opcional de IA e possibilidade de revisão antes de utilizar ou compartilhar qualquer material.\\
+\textbf{Dificuldades hipotéticas:} retrabalho na montagem de planos; dispersão de materiais; necessidade de adaptar sugestões às turmas; insegurança em relação a conteúdos gerados automaticamente.\\
+\textbf{Necessidades prioritárias propostas:} (1) organizar turmas e disciplinas; (2) criar ou adaptar planos; (3) revisar sugestões por IA; (4) consultar histórico; (5) reutilizar e exportar os planejamentos.\\
+\textbf{Expectativas de confiança:} clareza sobre o uso de IA, salvamento explícito, possibilidade de edição e proteção das informações cadastradas.\\
+\textbf{Frase-síntese fictícia:} ``Quero organizar meus planos e receber sugestões, mas decidir o que faz sentido para a minha turma.''
+
+A persona consolidada \textbf{não representa um resultado definitivo de pesquisa}. Ela sintetiza, para fins de projeto, características comuns e necessidades complementares das três propostas iniciais. Após a aplicação do questionário, o grupo deverá confrontar cada hipótese com as respostas efetivas, registrar convergências e divergências e atualizar a versão final. Não se devem fabricar falas, percentuais ou evidências de entrevistas.
+
+\subsection{Rastreabilidade e validação futura}
+A consolidação deverá ser revisada à luz das questões do instrumento de coleta: ferramentas e frequência de planejamento (Q3--Q4), dificuldades e tempo de preparação (Q5--Q6), recursos considerados úteis (Q7), familiaridade e preocupações com IA (Q8--Q10) e sugestões abertas (Q12). Caso os resultados reais contrariem alguma hipótese, a persona deverá ser corrigida, mantendo registro da alteração.
+
+\section{Histórias de usuário e critérios de aceitação}
+\label{sec:userstories}
+
+\subsection{Padrão de escrita e priorização}
+As histórias de usuário abaixo estão estruturadas no formato \emph{Como [perfil], quero [ação], para [benefício]}, permitindo transformar necessidades propostas em funcionalidades compreensíveis e verificáveis. Os critérios de aceitação são condições objetivas para discutir o comportamento esperado. A priorização é \textbf{inicial e hipotética}, proposta como ponto de partida para discussão pelo grupo e \textbf{ainda não validada por docentes}. A classificação \emph{Alta}, \emph{Média} e \emph{Baixa} indica relevância relativa ao protótipo, não esforço ou implementação concluída.
+
+\subsection{Catálogo com nove histórias}
+\begin{description}[style=nextline,leftmargin=0pt,labelindent=0pt,font=\normalfont\bfseries]
+\item[US01 --- Criar conta e acessar o ambiente (Alta)]
+\textbf{História:} Como professora, quero criar uma conta e acessar meu espaço de planejamento, para consultar meus materiais em um ambiente pessoal.\\
+\textbf{Critérios de aceitação:} (a) o formulário solicita apenas os campos necessários para cadastro; (b) informa campos inválidos ou obrigatórios; (c) após autenticação válida, apresenta a página inicial; (d) contas diferentes não visualizam dados privados umas das outras.
+
+\item[US02 --- Organizar turmas e disciplinas (Alta)]
+\textbf{História:} Como professora, quero cadastrar turmas e disciplinas, para associar cada planejamento ao contexto em que será aplicado.\\
+\textbf{Critérios de aceitação:} (a) é possível informar um nome de turma e uma disciplina; (b) campos essenciais são validados; (c) registros salvos aparecem na listagem; (d) é possível selecionar o vínculo ao elaborar um plano.
+
+\item[US03 --- Criar um rascunho de plano de aula (Alta)]
+\textbf{História:} Como professora, quero preencher um rascunho de plano de aula, para estruturar objetivos, atividades e avaliação em um só lugar.\\
+\textbf{Critérios de aceitação:} (a) o formulário oferece tema, objetivos, atividades e avaliação; (b) permite selecionar turma e disciplina cadastradas; (c) informa dados obrigatórios ausentes; (d) permite guardar o rascunho sem publicá-lo.
+
+\item[US04 --- Receber sugestões opcionais por IA (Alta)]
+\textbf{História:} Como professora, quero solicitar sugestões de planejamento por IA, para obter ideias iniciais que eu possa analisar e adaptar.\\
+\textbf{Critérios de aceitação:} (a) o uso do recurso é opcional; (b) a sugestão aparece identificada como conteúdo gerado por IA e sujeito a revisão; (c) a professora consegue aceitar, modificar ou descartar o rascunho; (d) o fluxo orienta a não inserir dados pessoais de estudantes; (e) erros na geração exibem uma mensagem compreensível.
+
+\item[US05 --- Revisar, editar e finalizar plano (Alta)]
+\textbf{História:} Como professora, quero revisar e editar meu plano antes de finalizá-lo, para manter o controle pedagógico sobre o documento.\\
+\textbf{Critérios de aceitação:} (a) campos do plano podem ser alterados; (b) alterações salvas reaparecem na consulta; (c) é possível diferenciar rascunho de plano finalizado; (d) sugestões automáticas nunca são finalizadas sem ação explícita do usuário.
+
+\item[US06 --- Consultar histórico de planejamentos (Alta)]
+\textbf{História:} Como professora, quero consultar meus planos por turma, disciplina ou período, para localizar rapidamente um planejamento anterior.\\
+\textbf{Critérios de aceitação:} (a) o histórico lista apenas documentos autorizados ao usuário; (b) filtros por turma, disciplina e período alteram os resultados; (c) a seleção de um item abre seus detalhes; (d) a ausência de resultados é indicada de forma clara.
+
+\item[US07 --- Duplicar um plano existente (Média)]
+\textbf{História:} Como professora, quero duplicar um planejamento, para reutilizar sua estrutura em outra turma ou data.\\
+\textbf{Critérios de aceitação:} (a) existe comando para duplicar um plano; (b) a cópia recebe identificador próprio; (c) editar a cópia não altera o original; (d) turma e data da cópia podem ser modificadas.
+
+\item[US08 --- Exportar plano para PDF (Média)]
+\textbf{História:} Como professora, quero exportar um plano de aula em PDF, para consultar ou apresentar o documento fora da plataforma.\\
+\textbf{Critérios de aceitação:} (a) a ação de exportação fica disponível na visualização do plano; (b) o documento gerado inclui os principais campos preenchidos; (c) a exportação não acrescenta dados de outros usuários; (d) o sistema informa falha caso o arquivo não possa ser produzido.
+
+\item[US09 --- Compartilhar plano com controle de acesso (Baixa)]
+\textbf{História:} Como professora, quero compartilhar voluntariamente um plano com pessoas autorizadas, para colaborar sem expor materiais privados indevidamente.\\
+\textbf{Critérios de aceitação:} (a) o compartilhamento é desativado por padrão; (b) antes de confirmar, é indicado quem poderá acessar o documento; (c) é possível revogar o compartilhamento; (d) não são incluídos automaticamente dados pessoais de estudantes.
+\end{description}
+
+\subsection{Resumo de priorização e rastreabilidade}
+\begin{table}[htbp]
+\centering
+\caption{Histórias, prioridade inicial e planejamento de protótipos}
+\label{tab:stories-resumo}
+\small
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{1.2cm}>{\RaggedRight\arraybackslash}X>{\RaggedRight\arraybackslash}p{1.3cm}>{\RaggedRight\arraybackslash}p{2.8cm}@{}}
+\toprule
+\textbf{ID} & \textbf{Funcionalidade} & \textbf{Prior.} & \textbf{Protótipo planejado} \\
+\midrule
+US01 & Cadastro e acesso & Alta & Baixa e média fidelidade\\
+US02 & Turmas e disciplinas & Alta & Baixa e média fidelidade\\
+US03 & Criação de plano & Alta & Baixa e média fidelidade\\
+US04 & Sugestão por IA & Alta & Média fidelidade\\
+US05 & Revisão e finalização & Alta & Média fidelidade\\
+US06 & Consulta e filtros & Alta & Média fidelidade\\
+US07 & Duplicação & Média & Evolução futura\\
+US08 & Exportação PDF & Média & Evolução futura\\
+US09 & Compartilhamento & Baixa & Evolução futura\\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria, priorização hipotética a confirmar com o grupo e a pesquisa.\end{minipage}
+\end{table}
+
+\subsection{Orientação para prototipação}
+Para atender ao escopo solicitado pela disciplina, foi proposta a seguinte divisão: \textbf{baixa fidelidade}, histórias US01, US02 e US03, desenhadas integralmente em papel e documentadas por fotografias; \textbf{média fidelidade}, histórias US01 a US06, articuladas em um fluxo de navegação com telas e links funcionais. Os fluxos deverão contemplar estados alternativos relevantes (por exemplo, campos obrigatórios vazios, plano não encontrado e sugestão de IA descartada). Esta seção define \textbf{o plano de produção dos protótipos}, não constitui evidência de que os desenhos ou os fluxos navegáveis já tenham sido construídos.
+
+\section{Product Backlog}
+\label{sec:backlog}
+
+\subsection{Finalidade e critérios de priorização}
+O \textit{Product Backlog} organiza, de forma ordenada, as funcionalidades propostas para o \textit{Aula em Dia}. A priorização considera: (i) valor para o planejamento docente; (ii) dependência entre funcionalidades; (iii) segurança e autonomia do professor; e (iv) cobertura exigida para os protótipos da disciplina. A classificação foi definida como \textbf{proposta preliminar do grupo}, e deverá ser revista após análise das respostas reais da pesquisa. O backlog não significa que as funcionalidades foram implementadas.
+
+\begin{itemize}[leftmargin=*]
+\item \textbf{Alta:} funções essenciais para representar a experiência principal e o protótipo de média fidelidade (US01 a US06).
+\item \textbf{Média:} funções que ampliam a produtividade, mas não bloqueiam a validação inicial (US07 e US08).
+\item \textbf{Baixa:} funcionalidade desejável cuja implementação exige decisões adicionais de permissões e privacidade (US09).
+\end{itemize}
+
+\subsection{Relação entre funcionalidade e importância}
+\begin{table}[htbp]
+\centering
+\caption{Product Backlog preliminar ordenado por importância e dependência}
+\label{tab:productbacklog}
+\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{0.9cm}>{\RaggedRight\arraybackslash}p{3.2cm}>{\RaggedRight\arraybackslash}p{1.2cm}>{\RaggedRight\arraybackslash}X@{}}
+\toprule
+\textbf{ID} & \textbf{Funcionalidade} & \textbf{Import.} & \textbf{Justificativa de prioridade} \\
+\midrule
+US01 & Cadastro e acesso & Alta & Entrada no ambiente privado de planejamento. \\
+US02 & Turmas e disciplinas & Alta & Contextualiza os planos cadastrados. \\
+US03 & Criação de rascunho & Alta & Corresponde à função central do sistema. \\
+US04 & Sugestões por IA & Alta & Apoia o docente com sugestões opcionais. \\
+US05 & Revisão e finalização & Alta & Mantém o professor no controle do conteúdo. \\
+US06 & Histórico e filtros & Alta & Facilita a localização de planejamentos anteriores. \\
+US07 & Duplicação de planos & Média & Melhora a produtividade após o fluxo central. \\
+US08 & Exportação PDF & Média & Permite usar o plano fora da plataforma. \\
+US09 & Compartilhamento & Baixa & Exige definições adicionais de acesso e segurança. \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria, a partir de US01 a US09; prioridades ainda não validadas por participantes.\end{minipage}
+\end{table}
+
+\subsection{Dependências, entregas e atualização}
+A sequência proposta começa por US01, US02 e US03, necessárias ao fluxo básico de cadastro e elaboração de planos. Em seguida são representadas US04, US05 e US06, compondo o escopo do protótipo de média fidelidade. US07 a US09 permanecem registradas para evolução posterior, sem exclusão do backlog. Os critérios de aceitação de cada item encontram-se na Seção~\ref{sec:userstories}.
+
+Para cada item devem ser registrados, na planilha de acompanhamento e no quadro de tarefas: \textbf{identificador, prioridade, responsável, estado atual, dependências e evidência}. Os modelos anexos iniciam sem responsáveis atribuídos e com estado ``A fazer''; a equipe deverá registrar a situação real dos itens. A planilha \textit{Aula em Dia - Product Backlog.xlsx} representa o planejamento inicial e pode ser usada como fonte de consulta e atualização.
+
+\noindent\textbf{Link do Product Backlog no Trello ou Notion:} \emph{[inserir URL após criação]}. Não se considera o quadro publicado enquanto este link não for preenchido e conferido.
+
+\section{Gerenciamento do Projeto em Quadro Kanban}
+\label{sec:kanban}
+
+\subsection{Estrutura de acompanhamento proposta}
+Para tornar o trabalho visível ao grupo, propõe-se utilizar um quadro no Trello, com cartões associados tanto às histórias do produto quanto aos artefatos acadêmicos exigidos no Relatório Parcial. O uso de um quadro Kanban complementa a organização iterativa proposta na metodologia, mas não comprova a adoção efetiva de Scrum nem a conclusão de atividades.
+
+\begin{table}[htbp]
+\centering
+\caption{Listas propostas para o quadro Kanban}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{2.8cm}>{\RaggedRight\arraybackslash}X@{}}
+\toprule
+\textbf{Lista} & \textbf{Regra de movimentação} \\
+\midrule
+A fazer & Tarefa definida, porém sem execução comprovada. \\
+Em andamento & Responsável iniciou efetivamente a atividade. \\
+Em revisão & Entrega produzida e encaminhada para verificação dos critérios de aceite. \\
+Concluído & Entrega revisada e evidência correspondente armazenada e vinculada. \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria, estrutura proposta para o acompanhamento do grupo.\end{minipage}
+\end{table}
+
+\subsection{Cartões planejados e divisão do trabalho}
+Além de um cartão por história US01 a US09, são sugeridos cartões para as entregas acadêmicas: revisão do TCLE, aplicação e tabulação da pesquisa, validação das personas, revisão do backlog, protótipos em papel e no Figma, modelos do banco de dados, normalização e script SQL, integração dos links e revisão final. Cada cartão deverá conter um responsável escolhido pelo grupo, \textit{checklist} de tarefas, critérios de conclusão e ligação para a evidência quando disponível. \textbf{Nenhum responsável ou progresso real é presumido} nesta versão.
+
+\subsection{Exemplo de rastreabilidade}
+\begin{table}[htbp]
+\centering
+\caption{Exemplos de cartões para implementação do quadro no Trello}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{1cm}>{\RaggedRight\arraybackslash}p{3.7cm}>{\RaggedRight\arraybackslash}X@{}}
+\toprule
+\textbf{ID} & \textbf{Cartão} & \textbf{Evidência esperada} \\
+\midrule
+K02 & Aplicar pesquisa e tabular dados & Planilha com respostas reais anonimizadas. \\
+K05 & Desenhar protótipo em papel & Fotografias dos fluxos US01 a US03. \\
+K06 & Protótipo navegável no Figma & Link do fluxo US01 a US06, com interações. \\
+K09 & Normalização e SQL & Regras explicadas e script versionado. \\
+K10 & Links e evidências no Overleaf & Links reais testados no relatório. \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria, exemplos do modelo inicial de tarefas.\end{minipage}
+\end{table}
+
+\noindent\textbf{Quadro Kanban no Trello:} \href{https://trello.com/b/vuNmlqB8/aula-em-dia-engenharia-de-software-3}{Aula em Dia - Engenharia de Software III}. O quadro foi criado, contendo as nove User Stories e tarefas do Relatório Parcial. A equipe deverá registrar uma captura atual e atualizar o andamento conforme as evidências reais.
+
+\section{Protótipo de baixa fidelidade}
+\subsection{Escopo, material e finalidade}
+Para o \textit{Aula em Dia}, foi preparado um guia visual de \textit{wireframes} a serem reproduzidos \textbf{manualmente em papel} pelo grupo, conforme exige o Relatório Parcial. O arquivo complementar \textit{Aula em Dia - Guia de Prototipos em Papel.pdf} possui onze páginas e apresenta quadros esquemáticos, campos de formulário, botões e caminhos de navegação. \textbf{Este guia digital não substitui o protótipo em papel nem constitui comprovação de fotografias dos desenhos.} As imagens feitas à mão deverão ser fotografadas, conferidas e armazenadas no repositório da equipe.
+
+\subsection{Fluxos das três histórias selecionadas}
+\begin{table}[htbp]
+\centering
+\caption{Telas e navegação propostas para a baixa fidelidade}
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{1.15cm}>{\RaggedRight\arraybackslash}p{3cm}>{\RaggedRight\arraybackslash}X@{}}
+\toprule
+\textbf{História} & \textbf{Telas previstas} & \textbf{Sequência e retorno esperado} \\
+\midrule
+US01 & Cadastro, login e painel & Cadastro $\rightarrow$ confirmação de dados $\rightarrow$ painel; login válido $\rightarrow$ painel; entrada inválida $\rightarrow$ mensagem de erro. \\
+US02 & Lista de turmas e cadastro de turma & Painel $\rightarrow$ turmas $\rightarrow$ nova turma $\rightarrow$ salvar $\rightarrow$ lista atualizada; campos inválidos $\rightarrow$ aviso. \\
+US03 & Lista de planos, formulário e visualização & Painel $\rightarrow$ planos $\rightarrow$ novo plano $\rightarrow$ salvar $\rightarrow$ visualizar; cancelar $\rightarrow$ retornar à lista. \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria, especificação para desenho manual.\end{minipage}
+\end{table}
+
+\subsection{Critérios de completude e registro de evidências}
+O grupo deverá desenhar o fluxo completo de US01, US02 e US03 em folhas identificadas por história e número de tela, incluindo setas de ida, retorno e tratamento de erros. Cada integrante poderá apresentar sugestões de melhoria, mas as decisões consolidadas devem ser registradas. Para finalizar a exigência de baixa fidelidade, faltam: (a) produzir de fato os desenhos em papel; (b) fotografar as folhas legíveis; (c) registrar o fluxo; (d) inserir no repositório um link acessível. O guia anexo é uma referência de execução, \emph{não uma atividade em papel já concluída}.
+
+\section{Protótipo de média fidelidade}
+\subsection{Escopo e características do artefato}
+Foi produzido um \textbf{protótipo local navegável em HTML}, disponibilizado como \textit{Aula em Dia - Prototipo Navegavel.html}, para simular as primeiras seis histórias de usuário. Ele apresenta interface com navegação entre telas, formulários, mensagens de validação, lista de turmas, rascunhos de planos, sugestão demonstrativa de IA, edição e filtros de consulta. Há dados fictícios previamente preenchidos para facilitar a avaliação. Não há autenticação real, serviço de IA conectado, banco de dados ou persistência remota; os dados alterados na demonstração não são registros reais.
+
+A navegação foi testada em navegador local por meio de cenários de cadastro, inclusão de turma, criação e edição de plano, sugestão simulada e pesquisa no histórico. Essas verificações atestam apenas o \textit{comportamento da demonstração em HTML}, e não a implementação funcional do sistema definitivo ou a validação por professores.
+
+\subsection{Rastreabilidade das seis histórias}
+\begin{table}[htbp]
+\centering
+\caption{Correspondência entre histórias e fluxos simulados}
+\small
+\renewcommand{\arraystretch}{1.23}
+\begin{tabularx}{\textwidth}{@{}>{\RaggedRight\arraybackslash}p{1.1cm}>{\RaggedRight\arraybackslash}p{4.2cm}>{\RaggedRight\arraybackslash}X@{}}
+\toprule
+\textbf{ID} & \textbf{Tela/fluxo} & \textbf{Interação demonstrada} \\
+\midrule
+US01 & Login e cadastro & Entrar ou cadastrar com dados fictícios, apresentando validação de campos. \\
+US02 & Turmas e nova turma & Cadastrar turma e disciplina; retornar à lista atualizada. \\
+US03 & Planos, novo plano e detalhes & Informar dados do plano, salvar rascunho e abrir a visualização. \\
+US04 & Botão de sugestões no editor & Exibir sugestão textual pré-definida e aplicá-la à metodologia. \\
+US05 & Detalhes e edição & Abrir plano existente, editar os campos e salvar as alterações. \\
+US06 & Histórico e filtros & Pesquisar planos por título/tema e filtrar por turma. \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria, testes no protótipo HTML local.\end{minipage}
+\end{table}
+
+\subsection{Telas representativas do protótipo}
+As Figuras~\ref{fig:painel} e~\ref{fig:planos} exemplificam o ambiente de planejamento e o formulário principal. As demais telas estão no diretório \textit{Telas} do pacote complementar.
+\begin{figure}[htbp]
+\centering
+\IfFileExists{Telas/Tela-03-Painel.png}{\includegraphics[width=0.96\textwidth]{Telas/Tela-03-Painel.png}}{\AulaFiguraAlternativa{Painel do professor}{Tela demonstrativa com menu de turmas, planos, histórico e acesso a novo planejamento.}}
+\caption{Painel do protótipo local de média fidelidade (dados fictícios).}
+\label{fig:painel}
+\end{figure}
+\begin{figure}[htbp]
+\centering
+\IfFileExists{Telas/Tela-06-Novo-plano.png}{\includegraphics[width=0.96\textwidth]{Telas/Tela-06-Novo-plano.png}}{\AulaFiguraAlternativa{Criação do plano de aula}{Formulário com turma, disciplina, tema, objetivos, conteúdos, metodologia e ação de salvar.}}
+\caption{Formulário de criação de plano de aula no protótipo local.}
+\label{fig:planos}
+\end{figure}
+
+\subsection{Publicação do protótipo no Figma}
+Além do HTML, foram preparadas dez imagens de telas para serem utilizadas como referência na montagem de quadros interativos no \textit{Figma}. Cada captura pode ser inserida em um \textit{frame} e vinculada a outra por regiões clicáveis no modo \textit{Prototype}. O grupo deverá concluir essa montagem, testar as ligações no modo de apresentação e disponibilizar um \textbf{link real de visualização e navegação}. Até que isso ocorra, \textbf{não se declara criado ou publicado um protótipo no Figma}. A simples disponibilização das imagens ou do HTML não substitui a navegação exigida no Figma.
+
+\noindent\textbf{Link do protótipo publicado no Figma:} \emph{[INSERIR URL REAL APÓS PUBLICAÇÃO]}.\\
+\textbf{Artefato navegável local:} arquivo \textit{Aula em Dia - Prototipo Navegavel.html}, disponível no pacote complementar.\\
+\textbf{Evidência em papel:} fotografias dos desenhos a produzir e disponibilizar pelo grupo.
+
+\section{Descrição do banco de dados}
+\subsection{Objetivo, escopo e tecnologia}
+Para o \textit{Aula em Dia}, propõe-se um banco de dados \textbf{relacional}, implementável no \textbf{PostgreSQL 15 ou posterior}. A escolha se justifica pelo suporte a chaves primárias e estrangeiras, restrições de integridade, transações, índices, visões e tipo \texttt{JSONB}. São recursos pertinentes à consistência e consulta de planos de aula \citep{postgres_constraints,postgres_json}. Trata-se de uma \textbf{proposta técnica}, e não da comprovação de uma implantação em ambiente de produção.
+
+O modelo cobre cadastro dos professores (US01), turmas e disciplinas (US02), planos de aula (US03), sugestões armazenadas de IA (US04), edição e histórico de versões (US05), consultas e filtros (US06), duplicação de planos (US07), exportação sob demanda em PDF (US08) e compartilhamento controlado (US09). A exportação é uma operação de aplicação e \textbf{não requer tabela própria}. O sistema de IA também não é desenvolvido pelo banco: a tabela de sugestões armazena respostas fornecidas por uma camada externa.
+
+\subsection{Premissas e limites}\begin{itemize}
+\item Cada turma pertence a um professor; uma turma pode ter várias disciplinas, e uma disciplina pode aparecer em várias turmas.
+\item Cada plano pertence a um professor e a uma associação entre turma e disciplina.
+\item Os objetivos, conteúdos e atividades de um plano podem existir em múltiplas linhas ordenadas.
+\item O cadastro armazena apenas o \textbf{hash de senha}, nunca uma senha em texto puro. O cálculo seguro do hash compete à aplicação.
+\item Não são cadastrados alunos, notas escolares nem respostas identificáveis da pesquisa acadêmica nesta base operacional.
+\item Controles de acesso e verificação de identidade devem ser implementados pela aplicação, com revisão de permissões antes de qualquer publicação.
+\end{itemize}
+
+\section{Modelo conceitual}
+O modelo conceitual representa as entidades e as cardinalidades relevantes, independentemente de tecnologia de armazenamento. No relacionamento entre \textit{Turma} e \textit{Disciplina}, a associação é do tipo muitos-para-muitos e será resolvida, no modelo relacional, por uma entidade associativa. Professor, plano e itens de planejamento conectam as funções centrais da plataforma.
+
+\begin{figure}[htbp]
+\centering
+\IfFileExists{Diagramas/Modelo Conceitual.png}{\includegraphics[width=\textwidth]{Diagramas/Modelo Conceitual.png}}{\AulaFiguraAlternativa{Modelo conceitual resumido}{Professor (1:N) Turma; Turma (N:N) Disciplina; Professor (1:N) Plano; Plano (1:N) Objetivo, Conteúdo, Atividade, Sugestão e Versão; Plano (1:N) Compartilhamento.}}
+\caption{Modelo conceitual proposto para o Aula em Dia, com relações e cardinalidades.}
+\label{fig:bd-conceitual}
+\end{figure}
+
+A cardinalidade \textbf{1:N} entre plano e objetivo, por exemplo, indica que um plano pode possuir vários objetivos, mas cada objetivo pertence a exatamente um plano. O mesmo raciocínio se aplica a conteúdos, atividades, sugestões, versões e compartilhamentos. A figura é um \textbf{modelo elaborado para a disciplina}; não representa uma base de dados implantada.
+
+\section{Modelo lógico}
+O modelo lógico converte as entidades em tabelas e atributos, explicitando \textit{PK} (chave primária), \textit{FK} (chave estrangeira) e \textit{UQ} (restrição de unicidade). O relacionamento N:N entre turmas e disciplinas transforma-se em duas relações 1:N a partir da tabela \texttt{turma\_disciplinas}.
+
+\begin{landscape}
+\begin{center}
+\IfFileExists{Diagramas/Modelo Logico.png}{\includegraphics[width=0.98\linewidth,height=0.90\textheight,keepaspectratio]{Diagramas/Modelo Logico.png}}{\AulaFiguraAlternativa{Modelo lógico resumido}{usuarios; disciplinas; turmas; turma\_disciplinas; planos\_aula; objetivos\_plano; conteudos\_plano; atividades\_plano; sugestoes\_ia; versoes\_plano; compartilhamentos. As chaves primárias são id e as estrangeiras são identificadores das entidades relacionadas.}}
+\captionof{figure}{Modelo lógico proposto: tabelas, PK, FK e principais atributos.}
+\label{fig:bd-logico}
+\end{center}
+\end{landscape}
+
+\subsection{Dicionário resumido das entidades}
+\begin{longtable}{@{}p{3.8cm}p{7.0cm}p{4.1cm}@{}}
+\caption{Dicionário resumido de dados e relações do sistema}\label{tab:bd-dicionario}\\
+\toprule
+\textbf{Tabela} & \textbf{Finalidade} & \textbf{Referências (FK)} \\
+\midrule\endfirsthead
+\toprule \textbf{Tabela} & \textbf{Finalidade} & \textbf{Referências (FK)} \\
+\midrule\endhead
+\texttt{usuarios} & Identifica e autentica docentes & --- \\
+\texttt{disciplinas} & Catálogo de disciplinas reutilizáveis & --- \\
+\texttt{turmas} & Registra turmas por ano e professor & \texttt{id\_professor} \\
+\texttt{turma\_disciplinas} & Associa turma e disciplina sem repetição & \texttt{id\_turma}, \texttt{id\_disciplina} \\
+\texttt{planos\_aula} & Armazena dados centrais dos planos & \texttt{id\_autor}, \texttt{id\_turma\_disciplina} \\
+\texttt{objetivos\_plano} & Objetivos ordenados para cada plano & \texttt{id\_plano} \\
+\texttt{conteudos\_plano} & Conteúdos ordenados para cada plano & \texttt{id\_plano} \\
+\texttt{atividades\_plano} & Atividades ordenadas para cada plano & \texttt{id\_plano} \\
+\texttt{sugestoes\_ia} & Rascunhos e estado de sugestões geradas & \texttt{id\_plano} \\
+\texttt{versoes\_plano} & Retratos históricos de edições & \texttt{id\_plano} \\
+\texttt{compartilhamentos} & Destinatário, permissão e revogação & \texttt{id\_plano}, \texttt{id\_destinatario} \\
+\bottomrule
+\end{longtable}
+
+O modelo possui \textbf{11 tabelas}, com regras de unicidade para e-mail de usuário, nome de disciplina, associação turma--disciplina e ordenação dos itens de cada plano. Uma visão de consulta \texttt{vw\_historico\_planos} agrega nomes de turma e disciplina somente na leitura, sem armazená-los duplicadamente no registro do plano.
+
+\section{Modelo físico}
+O modelo físico especializa o modelo lógico para PostgreSQL, definindo tipos como \texttt{BIGINT}, \texttt{VARCHAR}, \texttt{TEXT}, \texttt{DATE}, \texttt{TIMESTAMPTZ} e \texttt{JSONB}. A Figura~\ref{fig:bd-fisico} destaca identificadores, tipos e referências. A especificação exata de todos os campos aparece no código SQL deste relatório.
+
+\begin{landscape}
+\begin{center}
+\IfFileExists{Diagramas/Modelo Fisico.png}{\includegraphics[width=0.98\linewidth,height=0.90\textheight,keepaspectratio]{Diagramas/Modelo Fisico.png}}{\AulaFiguraAlternativa{Modelo físico resumido}{PostgreSQL 15+: BIGINT GENERATED AS IDENTITY para PK; BIGINT para FK; VARCHAR e TEXT para textos; DATE e TIMESTAMPTZ para datas; JSONB para snapshots; restrições UNIQUE, CHECK, NOT NULL e FOREIGN KEY.}}
+\captionof{figure}{Modelo físico proposto para PostgreSQL: tabelas e tipos principais.}
+\label{fig:bd-fisico}
+\end{center}
+\end{landscape}
+
+\subsection{Integridade e desempenho}
+\begin{itemize}
+\item \textbf{Identificação}: as tabelas adotam chaves primárias de tipo \texttt{BIGINT} com geração de identidade.
+\item \textbf{Relacionamentos}: chaves estrangeiras evitam planos associados a turmas inexistentes e sugestões órfãs.
+\item \textbf{Validação}: restrições \texttt{CHECK}, \texttt{NOT NULL} e \texttt{UNIQUE} verificam valores e associações, como duração maior que zero e estados permitidos.
+\item \textbf{Consulta}: índices nas chaves de pesquisa sustentam o histórico por professor, turma, disciplina e situação.
+\item \textbf{Atualização}: gatilhos registram a data de atualização e verificam, na criação do plano, a relação entre docente e turma.
+\item \textbf{Histórico}: versões são armazenadas em \texttt{JSONB} como \emph{snapshots} de auditoria; seu conteúdo não substitui as tabelas normalizadas do estado atual.
+\end{itemize}
+
+A escolha das ações de exclusão considera a preservação dos planos: apagar um objetivo vinculado é permitido pela cascata da tabela de itens, enquanto a remoção de relações em uso por planos é restrita. A autorização sobre compartilhamentos ainda depende de políticas explícitas na aplicação e de testes de segurança.
+
+\section{Normalização}
+A normalização procura reduzir redundâncias e evitar anomalias de inserção, atualização e exclusão. O processo foi aplicado ao modelo proposto considerando as primeiras três formas normais (1FN, 2FN e 3FN), conforme os princípios de projeto relacional discutidos por \citet{silberschatz2020}. A Tabela~\ref{tab:normalizacao-exemplo} resume a transformação.
+
+\begin{table}[htbp]
+\centering
+\caption{Exemplo didático de evolução da estrutura antes da normalização}
+\label{tab:normalizacao-exemplo}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{2.1cm}X X@{}}
+\toprule
+\textbf{Etapa} & \textbf{Problema na estrutura inicial} & \textbf{Modificação proposta} \\
+\midrule
+Sem 1FN & Um campo guarda ``objetivo 1; objetivo 2; objetivo 3'' e múltiplas atividades. & Criar \texttt{objetivos\_plano}, \texttt{conteudos\_plano} e \texttt{atividades\_plano}, com uma linha por item. \\
+1FN para 2FN & Uma tabela de associação com chave composta mistura atributos de turma, disciplina e professor. & Deixar a associação somente com chaves de turma e disciplina; mover atributos de cada entidade para sua própria tabela. \\
+2FN para 3FN & Nome do professor e nome da disciplina aparecem repetidos em cada plano. & Manter \texttt{id\_autor} e \texttt{id\_turma\_disciplina} como referências e armazenar nomes apenas em \texttt{usuarios} e \texttt{disciplinas}. \\
+\bottomrule
+\end{tabularx}
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria, como demonstração de decisões de modelagem.\end{minipage}
+\end{table}
+
+\subsection{Primeira Forma Normal (1FN)}
+Cada coluna deve armazenar um valor indivisível para os propósitos do modelo, e não listas de dados. Objetivos, conteúdos e atividades são separados em tabelas com campo \texttt{ordem}. Essa escolha permite inserir, alterar e excluir cada item sem reescrever uma lista textual de elementos associados.
+
+\subsection{Segunda Forma Normal (2FN)}
+As tabelas estão em 1FN e atributos não chave dependem da chave inteira. A ligação entre turma e disciplina, por exemplo, usa a combinação única de suas chaves; atributos de turma não são repetidos nesse relacionamento. Em outras tabelas, chaves artificiais de coluna única também eliminam dependências parciais de chaves primárias compostas, sem dispensar a análise das restrições de negócio.
+
+\subsection{Terceira Forma Normal (3FN)}
+Os atributos descritivos dependem da chave de sua própria entidade, e não de outros atributos não chave armazenados na mesma linha. O nome do professor fica em \texttt{usuarios}; o nome da disciplina fica em \texttt{disciplinas}; o plano utiliza identificadores. Dessa forma, corrigir o nome de uma disciplina não exige atualizar todos os planos já criados.
+
+\subsection{Exceção intencional e cuidados}
+A tabela \texttt{versoes\_plano} utiliza \texttt{JSONB} apenas para guardar o estado anterior de um plano, exigência de histórico. Trata-se de um documento temporal arquivado; \textbf{as consultas ao estado atual continuam usando as tabelas normalizadas}. Os conteúdos de prompt e sugestão são texto livre e não incluem, neste escopo, dados pessoais de alunos. As decisões de normalização poderão ser revistas quando requisitos e operações reais forem validados com usuários.
+
+\section{Código SQL completo}
+O script \textit{Aula em Dia - Banco de Dados PostgreSQL.sql} acompanha o pacote completo. O código também está incorporado ao \texttt{main.tex}, para permitir a compilação mesmo sem o arquivo SQL separado. Ele contém criação de esquema, 11 tabelas, chaves, restrições, índices, funções, gatilhos e uma visão para consultas de histórico. O arquivo \textit{Aula em Dia - Testes de Integridade.sql} traz cenários de inserção com dados fictícios e reversão por transação. A seguir, apresenta-se o \textbf{script DDL completo}, incorporado ao relatório para facilitar sua verificação pelo professor.
+
+\noindent\textbf{Estado da implementação:} modelo e código elaborados; \textbf{execução e homologação em instância PostgreSQL ainda devem ser realizadas} pelo grupo. Não se declara teste de SGBD concluído apenas pela elaboração do script.
+
+\begin{lstlisting}[style=aulasql,caption={Código SQL completo do banco de dados Aula em Dia},label={lst:bd-ddl}]
+-- AULA EM DIA - BANCO DE DADOS PROPOSTO
+-- SGBD: PostgreSQL 15 ou posterior | Codificacao UTF-8
+-- Script DDL: esquema, tabelas, chaves, restricoes, indices, funcoes e visao.
+-- Uso academico: modelo proposto; executar/testar no SGBD antes da implantacao.
+-- NAO armazene senhas em texto puro nem dados de alunos neste projeto.
+
+BEGIN;
+
+CREATE SCHEMA IF NOT EXISTS aula_em_dia;
+SET search_path TO aula_em_dia, public;
+
+-- US01: usuarios e autenticacao (o hash e produzido na aplicacao)
+CREATE TABLE IF NOT EXISTS usuarios (
+    id_usuario BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    nome VARCHAR(120) NOT NULL,
+    email VARCHAR(254) NOT NULL UNIQUE,
+    senha_hash VARCHAR(255) NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE,
+    criado_em TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT ck_usuarios_nome CHECK (btrim(nome) <> ''),
+    CONSTRAINT ck_usuarios_email CHECK (position('@' IN email) > 1),
+    CONSTRAINT ck_usuarios_hash CHECK (length(senha_hash) >= 20)
+);
+
+-- Catalogo de disciplinas, evitando repeticao de nomes em cada turma.
+CREATE TABLE IF NOT EXISTS disciplinas (
+    id_disciplina BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    CONSTRAINT ck_disciplinas_nome CHECK (btrim(nome) <> '')
+);
+
+-- US02: turmas pertencem a um professor cadastrado.
+CREATE TABLE IF NOT EXISTS turmas (
+    id_turma BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id_professor BIGINT NOT NULL,
+    nome VARCHAR(80) NOT NULL,
+    ano_letivo SMALLINT NOT NULL,
+    etapa_ensino VARCHAR(60) NOT NULL,
+    ativa BOOLEAN NOT NULL DEFAULT TRUE,
+    criada_em TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_turmas_professor FOREIGN KEY (id_professor)
+        REFERENCES usuarios (id_usuario) ON DELETE RESTRICT,
+    CONSTRAINT uq_turma_professor_nome_ano UNIQUE (id_professor, nome, ano_letivo),
+    CONSTRAINT ck_turmas_nome CHECK (btrim(nome) <> ''),
+    CONSTRAINT ck_turmas_ano CHECK (ano_letivo BETWEEN 2000 AND 2100),
+    CONSTRAINT ck_turmas_etapa CHECK (btrim(etapa_ensino) <> '')
+);
+
+-- Relacao N:N entre turmas e disciplinas.
+CREATE TABLE IF NOT EXISTS turma_disciplinas (
+    id_turma_disciplina BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id_turma BIGINT NOT NULL,
+    id_disciplina BIGINT NOT NULL,
+    CONSTRAINT fk_td_turma FOREIGN KEY (id_turma)
+        REFERENCES turmas (id_turma) ON DELETE CASCADE,
+    CONSTRAINT fk_td_disciplina FOREIGN KEY (id_disciplina)
+        REFERENCES disciplinas (id_disciplina) ON DELETE RESTRICT,
+    CONSTRAINT uq_turma_disciplina UNIQUE (id_turma, id_disciplina)
+);
+
+-- US03, US05 e US06: entidade central de planejamento.
+CREATE TABLE IF NOT EXISTS planos_aula (
+    id_plano BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id_autor BIGINT NOT NULL,
+    id_turma_disciplina BIGINT NOT NULL,
+    titulo VARCHAR(180) NOT NULL,
+    tema VARCHAR(250) NOT NULL,
+    metodologia TEXT,
+    recursos TEXT,
+    duracao_minutos INTEGER NOT NULL,
+    data_aula DATE,
+    situacao VARCHAR(20) NOT NULL DEFAULT 'rascunho',
+    criado_em TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_planos_autor FOREIGN KEY (id_autor)
+        REFERENCES usuarios (id_usuario) ON DELETE RESTRICT,
+    CONSTRAINT fk_planos_turma_disciplina FOREIGN KEY (id_turma_disciplina)
+        REFERENCES turma_disciplinas (id_turma_disciplina) ON DELETE RESTRICT,
+    CONSTRAINT ck_planos_titulo CHECK (btrim(titulo) <> ''),
+    CONSTRAINT ck_planos_tema CHECK (btrim(tema) <> ''),
+    CONSTRAINT ck_planos_duracao CHECK (duracao_minutos BETWEEN 1 AND 1440),
+    CONSTRAINT ck_planos_situacao CHECK (situacao IN ('rascunho', 'revisao', 'finalizado'))
+);
+
+-- Componentes repetiveis de planos sao linhas, nao colunas duplicadas.
+CREATE TABLE IF NOT EXISTS objetivos_plano (
+    id_objetivo BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id_plano BIGINT NOT NULL,
+    ordem INTEGER NOT NULL,
+    descricao TEXT NOT NULL,
+    CONSTRAINT fk_objetivo_plano FOREIGN KEY (id_plano)
+        REFERENCES planos_aula (id_plano) ON DELETE CASCADE,
+    CONSTRAINT uq_objetivo_ordem UNIQUE (id_plano, ordem),
+    CONSTRAINT ck_objetivo_ordem CHECK (ordem > 0),
+    CONSTRAINT ck_objetivo_descricao CHECK (btrim(descricao) <> '')
+);
+
+CREATE TABLE IF NOT EXISTS conteudos_plano (
+    id_conteudo BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id_plano BIGINT NOT NULL,
+    ordem INTEGER NOT NULL,
+    descricao TEXT NOT NULL,
+    CONSTRAINT fk_conteudo_plano FOREIGN KEY (id_plano)
+        REFERENCES planos_aula (id_plano) ON DELETE CASCADE,
+    CONSTRAINT uq_conteudo_ordem UNIQUE (id_plano, ordem),
+    CONSTRAINT ck_conteudo_ordem CHECK (ordem > 0),
+    CONSTRAINT ck_conteudo_descricao CHECK (btrim(descricao) <> '')
+);
+
+CREATE TABLE IF NOT EXISTS atividades_plano (
+    id_atividade BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id_plano BIGINT NOT NULL,
+    ordem INTEGER NOT NULL,
+    descricao TEXT NOT NULL,
+    CONSTRAINT fk_atividade_plano FOREIGN KEY (id_plano)
+        REFERENCES planos_aula (id_plano) ON DELETE CASCADE,
+    CONSTRAINT uq_atividade_ordem UNIQUE (id_plano, ordem),
+    CONSTRAINT ck_atividade_ordem CHECK (ordem > 0),
+    CONSTRAINT ck_atividade_descricao CHECK (btrim(descricao) <> '')
+);
+
+-- US04: sugestoes de IA armazenam apenas solicitacoes e rascunhos de texto.
+CREATE TABLE IF NOT EXISTS sugestoes_ia (
+    id_sugestao BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id_plano BIGINT NOT NULL,
+    comando_usuario TEXT NOT NULL,
+    texto_sugerido TEXT NOT NULL,
+    modelo_ia VARCHAR(100),
+    situacao VARCHAR(20) NOT NULL DEFAULT 'pendente',
+    criada_em TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_sugestoes_plano FOREIGN KEY (id_plano)
+        REFERENCES planos_aula (id_plano) ON DELETE CASCADE,
+    CONSTRAINT ck_sugestoes_comando CHECK (btrim(comando_usuario) <> ''),
+    CONSTRAINT ck_sugestoes_texto CHECK (btrim(texto_sugerido) <> ''),
+    CONSTRAINT ck_sugestoes_situacao CHECK (situacao IN ('pendente', 'aproveitada', 'descartada'))
+);
+
+-- US05: versoes arquivadas como retratos historicos (JSONB intencional).
+CREATE TABLE IF NOT EXISTS versoes_plano (
+    id_versao BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id_plano BIGINT NOT NULL,
+    numero_versao INTEGER NOT NULL,
+    conteudo_json JSONB NOT NULL,
+    registrada_em TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_versao_plano FOREIGN KEY (id_plano)
+        REFERENCES planos_aula (id_plano) ON DELETE CASCADE,
+    CONSTRAINT uq_versao_numero UNIQUE (id_plano, numero_versao),
+    CONSTRAINT ck_versao_numero CHECK (numero_versao > 0),
+    CONSTRAINT ck_versao_conteudo CHECK (jsonb_typeof(conteudo_json) = 'object')
+);
+
+-- US09: compartilhamento revogavel entre usuarios da plataforma.
+CREATE TABLE IF NOT EXISTS compartilhamentos (
+    id_compartilhamento BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    id_plano BIGINT NOT NULL,
+    id_destinatario BIGINT NOT NULL,
+    permissao VARCHAR(12) NOT NULL DEFAULT 'leitura',
+    criado_em TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    revogado_em TIMESTAMPTZ,
+    CONSTRAINT fk_compart_plano FOREIGN KEY (id_plano)
+        REFERENCES planos_aula (id_plano) ON DELETE CASCADE,
+    CONSTRAINT fk_compart_destinatario FOREIGN KEY (id_destinatario)
+        REFERENCES usuarios (id_usuario) ON DELETE RESTRICT,
+    CONSTRAINT uq_compart_destinatario UNIQUE (id_plano, id_destinatario),
+    CONSTRAINT ck_compart_permissao CHECK (permissao IN ('leitura', 'edicao')),
+    CONSTRAINT ck_compart_revogacao CHECK (revogado_em IS NULL OR revogado_em >= criado_em)
+);
+
+-- Indices nas colunas de consulta e relacionamentos.
+CREATE INDEX IF NOT EXISTS idx_turmas_professor ON turmas (id_professor);
+CREATE INDEX IF NOT EXISTS idx_td_disciplina ON turma_disciplinas (id_disciplina);
+CREATE INDEX IF NOT EXISTS idx_planos_autor_data ON planos_aula (id_autor, data_aula DESC);
+CREATE INDEX IF NOT EXISTS idx_planos_turma_disciplina ON planos_aula (id_turma_disciplina);
+CREATE INDEX IF NOT EXISTS idx_planos_situacao ON planos_aula (situacao);
+CREATE INDEX IF NOT EXISTS idx_objetivos_plano ON objetivos_plano (id_plano);
+CREATE INDEX IF NOT EXISTS idx_conteudos_plano ON conteudos_plano (id_plano);
+CREATE INDEX IF NOT EXISTS idx_atividades_plano ON atividades_plano (id_plano);
+CREATE INDEX IF NOT EXISTS idx_sugestoes_plano ON sugestoes_ia (id_plano);
+CREATE INDEX IF NOT EXISTS idx_versoes_plano ON versoes_plano (id_plano);
+CREATE INDEX IF NOT EXISTS idx_compart_destinatario ON compartilhamentos (id_destinatario);
+
+-- Carimbos de atualizacao, gerados pelo banco.
+CREATE OR REPLACE FUNCTION marcar_atualizacao()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.atualizado_em = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_usuarios_atualizacao ON usuarios;
+CREATE TRIGGER trg_usuarios_atualizacao
+BEFORE UPDATE ON usuarios
+FOR EACH ROW EXECUTE FUNCTION marcar_atualizacao();
+
+DROP TRIGGER IF EXISTS trg_planos_atualizacao ON planos_aula;
+CREATE TRIGGER trg_planos_atualizacao
+BEFORE UPDATE ON planos_aula
+FOR EACH ROW EXECUTE FUNCTION marcar_atualizacao();
+
+-- Regra de negocio: somente o docente da turma pode criar o plano.
+CREATE OR REPLACE FUNCTION verificar_autor_plano()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM turma_disciplinas td
+        INNER JOIN turmas t ON t.id_turma = td.id_turma
+        WHERE td.id_turma_disciplina = NEW.id_turma_disciplina
+          AND t.id_professor = NEW.id_autor
+    ) THEN
+        RAISE EXCEPTION 'Autor nao responsavel pela turma deste plano';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_validar_autor_plano ON planos_aula;
+CREATE TRIGGER trg_validar_autor_plano
+BEFORE INSERT OR UPDATE OF id_autor, id_turma_disciplina ON planos_aula
+FOR EACH ROW EXECUTE FUNCTION verificar_autor_plano();
+
+-- US06: consulta para listagem do historico por professor e turma.
+CREATE OR REPLACE VIEW vw_historico_planos AS
+SELECT p.id_plano, p.id_autor, p.titulo, p.tema,
+       p.data_aula, p.situacao, p.atualizado_em,
+       t.id_turma, t.nome AS turma,
+       d.id_disciplina, d.nome AS disciplina
+FROM planos_aula p
+JOIN turma_disciplinas td ON td.id_turma_disciplina = p.id_turma_disciplina
+JOIN turmas t ON t.id_turma = td.id_turma
+JOIN disciplinas d ON d.id_disciplina = td.id_disciplina;
+
+COMMIT;
+
+-- Exemplos de consultas (substitua 1 pelo ID real do usuario):
+-- SELECT * FROM aula_em_dia.vw_historico_planos
+-- WHERE id_autor = 1 ORDER BY atualizado_em DESC;
+-- SELECT id_plano, titulo FROM aula_em_dia.vw_historico_planos
+-- WHERE id_autor = 1 AND id_turma = 1;
+-- Exportacao PDF (US08) e executada na aplicacao; nao exige tabela propria.
+-- DUPLICAR um plano (US07) cria novo registro e novos itens associados.
+-- Autorizacao por sessao, permissao e perfil e responsabilidade do backend.
+\end{lstlisting}
+
+\noindent\textbf{Script e evidências de execução no GitHub/Drive:} \emph{[INSERIR URL REAL DO REPOSITÓRIO APÓS ENVIO DOS ARQUIVOS]}.\\
+\textbf{Rastreabilidade funcional:} US01--US09 do Product Backlog, respeitadas as operações de aplicação descritas nas seções anteriores.
+
+\section{Repositórios e artefatos digitais}
+\begin{itemize}
+ \item Google Drive: \texttt{[INSERIR LINK REAL]}
+ \item GitHub: \texttt{[INSERIR LINK REAL]}
+ \item Figma: \texttt{[INSERIR LINK REAL APÓS PUBLICAÇÃO]}
+ \item Trello: \href{https://trello.com/b/vuNmlqB8/aula-em-dia-engenharia-de-software-3}{Quadro Aula em Dia}
+ \item Script SQL e modelos de BD: arquivos entregues no pacote; publicar no GitHub/Drive e informar URL real.
+\end{itemize}
+
+
+\begin{thebibliography}{99}
+\sloppy % Permite quebrar URLs longas nas referencias sem estourar margens.
+\bibitem[Sommerville(2016)]{sommerville2016}
+SOMMERVILLE, Ian. \textit{Software Engineering}. 10. ed. Pearson, 2016.
+
+\bibitem[Schwaber e Sutherland(2020)]{schwaber2020}
+SCHWABER, Ken; SUTHERLAND, Jeff. \textit{The Scrum Guide: The Definitive Guide to Scrum: The Rules of the Game}. 2020. Disponível em: \url{https://scrumguides.org/scrum-guide.html}. Acesso em: 25 out. 2026.
+
+\bibitem[Brasil(2018)]{brasil2018}
+BRASIL. \textit{Lei n. 13.709, de 14 de agosto de 2018: Lei Geral de Proteção de Dados Pessoais}. 2018. Disponível em: \url{https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm}. Acesso em: 25 out. 2026.
+
+\bibitem[Teachy(2026a)]{teachy_planejamento2026}
+TEACHY. \textit{Como criar um planejamento na Teachy?} Atualizado em 18 set. 2026. Disponível em: \url{https://teachy.ai/pt-BR/teachy-help-center/planejamento/como-criar-um-planejamento-na-teachy}. Acesso em: 25 out. 2026.
+
+\bibitem[Teachy(2026b)]{teachy_ferramentas2026}
+TEACHY. \textit{O que posso criar na Teachy?} Atualizado em 4 ago. 2026. Disponível em: \url{https://www.teachy.com.br/pt-BR/teachy-help-center/comece-aqui/o-que-posso-criar-na-teachy}. Acesso em: 25 out. 2026.
+
+\bibitem[MagicSchool(2026a)]{magicschool_planos2026}
+MAGICSCHOOL. \textit{AI Lesson Plan Generator for Teachers}. 2026. Disponível em: \url{https://www.magicschool.ai/tools/lesson-plan}. Acesso em: 25 out. 2026.
+
+\bibitem[MagicSchool(2026b)]{magicschool_ferramentas2026}
+MAGICSCHOOL. \textit{AI Tools for Teachers}. 2026. Disponível em: \url{https://www.magicschool.ai/magic-tools}. Acesso em: 25 out. 2026.
+
+\bibitem[Planbook(2026)]{planbook_professores2026}
+PLANBOOK. \textit{Teachers: The Established Leader in Online Lesson Planning}. 2026. Disponível em: \url{https://www.planbook.com/teachers}. Acesso em: 25 out. 2026.
+
+\bibitem[Amazon Ads(s.d.)]{amazon_aarrr}
+AMAZON ADS. \textit{O que é marketing de crescimento? Por que isso é importante?} s.d. Disponível em: \url{https://advertising.amazon.com/pt-br/library/guides/growth-marketing}. Acesso em: 25 out. 2026.
+\bibitem[Conselho Nacional de Saúde(2016)]{cns5102016}
+CONSELHO NACIONAL DE SAÚDE. \textit{Resolução n. 510, de 7 de abril de 2016}. Brasília: Ministério da Saúde, 2016. Disponível em: \url{https://www.gov.br/conselho-nacional-de-saude/pt-br/atos-normativos/resolucoes/2016/resolucao-no-510.pdf/view}. Acesso em: 25 out. 2026.
+
+\bibitem[ANPD(2025)]{anpd2025}
+AUTORIDADE NACIONAL DE PROTEÇÃO DE DADOS (ANPD). \textit{Guia orientativo: tratamento de dados pessoais para fins acadêmicos e para a realização de estudos e pesquisas}. Brasília: ANPD, atualização disponível em 2025. Disponível em: \href{https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-orientativo-tratamento-de-dados-pessoais-para-fins-academicos-e-para-a-realizacao-de-estudos-e-pesquisas}{Guia orientativo da ANPD (acesso on-line)}. Acesso em: 25 out. 2026.
+
+\bibitem[Silberschatz et al.(2020)]{silberschatz2020}
+SILBERSCHATZ, Abraham; KORTH, Henry F.; SUDARSHAN, S. \textit{Database System Concepts}. 7. ed. McGraw-Hill, 2020.
+
+\bibitem[PostgreSQL(2026a)]{postgres_constraints}
+POSTGRESQL GLOBAL DEVELOPMENT GROUP. \textit{Documentation: Constraints}. Disponível em: \url{https://www.postgresql.org/docs/current/ddl-constraints.html}. Acesso em: 26 out. 2026.
+
+\bibitem[PostgreSQL(2026b)]{postgres_json}
+POSTGRESQL GLOBAL DEVELOPMENT GROUP. \textit{Documentation: JSON Types}. Disponível em: \url{https://www.postgresql.org/docs/current/datatype-json.html}. Acesso em: 26 out. 2026.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,21 @@
+﻿ID;Lista sugerida;Título do cartão;Descrição;Critério de conclusão / evidência;Prioridade;História relacionada;Responsável (preencher);Link evidência (preencher);Frente
+US01;A fazer;US01 - Cadastro e acesso;"História do produto; dependências: Nenhuma. Importância: Alta.";Verificar critérios de aceitação na seção de User Stories. Protótipo: Baixa e média.;Alta;US01;;;Produto
+US02;A fazer;US02 - Turmas e disciplinas;"História do produto; dependências: US01. Importância: Alta.";Verificar critérios de aceitação na seção de User Stories. Protótipo: Baixa e média.;Alta;US02;;;Produto
+US03;A fazer;US03 - Criação de rascunho de plano;"História do produto; dependências: US01, US02. Importância: Alta.";Verificar critérios de aceitação na seção de User Stories. Protótipo: Baixa e média.;Alta;US03;;;Produto
+US04;A fazer;US04 - Sugestões opcionais por IA;"História do produto; dependências: US03. Importância: Alta.";Verificar critérios de aceitação na seção de User Stories. Protótipo: Média.;Alta;US04;;;Produto
+US05;A fazer;US05 - Revisão e finalização;"História do produto; dependências: US03, US04 (opcional). Importância: Alta.";Verificar critérios de aceitação na seção de User Stories. Protótipo: Média.;Alta;US05;;;Produto
+US06;A fazer;US06 - Histórico e filtros;"História do produto; dependências: US03. Importância: Alta.";Verificar critérios de aceitação na seção de User Stories. Protótipo: Média.;Alta;US06;;;Produto
+US07;A fazer;US07 - Duplicação de planos;"História do produto; dependências: US03, US06. Importância: Média.";Verificar critérios de aceitação na seção de User Stories. Protótipo: Futura.;Média;US07;;;Produto
+US08;A fazer;US08 - Exportação para PDF;"História do produto; dependências: US05. Importância: Média.";Verificar critérios de aceitação na seção de User Stories. Protótipo: Futura.;Média;US08;;;Produto
+US09;A fazer;US09 - Compartilhamento controlado;"História do produto; dependências: US01, US05. Importância: Baixa.";Verificar critérios de aceitação na seção de User Stories. Protótipo: Futura.;Baixa;US09;;;Produto
+K01;A fazer;K01 - Revisar TCLE e liberar questionário;Verificar TCLE com docente, informar contato e validar consentimento.;TCLE revisado e formulário aprovado;Alta;;;;Pesquisa
+K02;A fazer;K02 - Aplicar pesquisa e tabular dados;"Convidar docentes adultos; obter consentimento; tabular apenas respostas reais sem identificadores.";Planilha anonimizada e link de coleta;Alta;;;;Pesquisa
+K03;A fazer;K03 - Revisar personas do grupo;Cada integrante revisa sua versão e o grupo registra a consolidação.;Três versões individuais e uma consolidada identificadas;Alta;;;;Análise
+K04;A fazer;K04 - Validar histórias e prioridades;Revisar critérios, importância, dependências e distribuição de responsabilidades.;Product Backlog aprovado e rastreável;Alta;US01–US09;;;Requisitos
+K05;A fazer;K05 - Desenhar fluxo em papel;"Desenhar em papel todos os passos e estados relevantes para US01 a US03; fotografar.";Fotografias legíveis dos fluxos em baixa fidelidade;Alta;US01–US03;;;Protótipos
+K06;A fazer;K06 - Montar protótipo navegável no Figma;Criar telas e conexões clicáveis cobrindo US01 a US06.;Link de navegação funcional e evidências;Alta;US01–US06;;;Protótipos
+K07;A fazer;K07 - Criar modelo conceitual;Mapear entidades e relacionamentos a partir das histórias.;DER conceitual exportado;Alta;US01–US06;;;Banco de Dados
+K08;A fazer;K08 - Criar modelos lógico e físico;Definir tabelas, chaves, domínios e tipos de dados.;Diagrama lógico e modelo físico revisados;Alta;US01–US06;;;Banco de Dados
+K09;A fazer;K09 - Normalizar e gerar script SQL;Demonstrar 1FN/2FN/3FN e criar o SQL completo e coerente.;Justificativa de normalização e arquivo SQL;Alta;US01–US06;;;Banco de Dados
+K10;A fazer;K10 - Inserir links e evidências no Overleaf;Referenciar os arquivos reais do Drive, GitHub, Figma e Trello.;URLs válidas no Capítulo 5;Alta;;;;Relatório
+K11;A fazer;K11 - Revisar e enviar relatório parcial;Conferir capítulos, citações, evidências e compilar PDF para submissão.;PDF final e comprovante de entrega;Alta;;;;Relatório

@@ -1,0 +1,81 @@
+% Seção elaborada a partir de fontes públicas consultadas em 25/10/2026.
+% NÃO representa testes com usuários, telemetria ou acesso interno às plataformas.
+\section{Benchmarking e Matriz AARR}
+\label{sec:benchmarking}
+
+\subsection{Objetivo e procedimento de análise}
+O \textit{benchmarking} consiste em comparar características de soluções de referência para identificar práticas, alternativas de projeto e oportunidades de melhoria. No projeto \textit{Aula em Dia}, o objetivo é observar como ferramentas existentes atendem às atividades de elaboração, organização e reutilização de planos de aula, além de reconhecer possibilidades de uso responsável de inteligência artificial no planejamento docente.
+
+Foi conduzida uma \textbf{análise documental exploratória} de informações públicas, disponibilizadas nas páginas oficiais de três plataformas: Teachy, MagicSchool AI e Planbook. A seleção buscou contemplar uma solução brasileira com geração de materiais pedagógicos por IA (Teachy), uma solução especializada em ferramentas de IA para professores (MagicSchool) e uma ferramenta com ênfase na gestão recorrente de planos de aula (Planbook). Os recursos foram registrados com base em páginas consultadas em \textbf{25 de outubro de 2026}. Não foram realizados testes de usabilidade, avaliações com professores nem medições de desempenho ou de adoção; por isso, as observações representam funcionalidades \emph{documentadas pelos fornecedores}, e não eficácia comprovada.
+
+\subsection{Descrição das plataformas de referência}
+\begin{description}[leftmargin=!,labelwidth=3cm]
+  \item[Teachy.] Plataforma voltada a professores, cuja documentação apresenta planejamento por período, associação a turmas e disciplinas, calendário, edição dos planejamentos gerados e criação de planos de aula com apoio de IA. As orientações publicadas também mencionam objetivos associados à Base Nacional Comum Curricular (BNCC) \citep{teachy_planejamento2026,teachy_ferramentas2026}.
+  \item[MagicSchool AI.] Plataforma educacional que disponibiliza ferramentas de geração assistida de planos de aula, atividades e avaliações. Sua ferramenta de planejamento permite informar disciplina, etapa escolar, objetivos e referenciais curriculares e, posteriormente, revisar o material produzido \citep{magicschool_planos2026,magicschool_ferramentas2026}.
+  \item[Planbook.] Solução de planejamento de aulas com organização de calendário, reutilização de planos e modelos, anexação de recursos, referências curriculares e compartilhamento controlado com outros professores \citep{planbook_professores2026}.
+\end{description}
+
+\subsection{Matriz comparativa das funcionalidades}
+A Tabela~\ref{tab:comparacao-benchmark} sintetiza apenas características observadas na documentação pública. A expressão ``não avaliado'' significa que não houve comprovação suficiente no conjunto de páginas consultadas; ela \textbf{não equivale} à inexistência da funcionalidade.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparação documental das soluções de referência}
+\label{tab:comparacao-benchmark}
+\footnotesize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{@{}p{2.8cm}XXX@{}}
+\toprule
+\textbf{Critério} & \textbf{Teachy} & \textbf{MagicSchool AI} & \textbf{Planbook} \\
+\midrule
+Elaboração de planos de aula & Sim, integrada ao planejamento & Sim, com ferramenta de IA & Sim, por editor e modelos \\
+Geração de rascunhos com IA & Documentada & Documentada & Não avaliada \\
+Organização temporal e calendário & Documentada & Não avaliada & Documentada \\
+Revisão e adaptação pelo professor & Documentada & Documentada & Documentada \\
+Referência explícita à BNCC brasileira & Documentada & Não avaliada & Não avaliada \\
+Compartilhamento ou colaboração & Planejamento colaborativo anunciado & Coleções compartilháveis de ferramentas & Compartilhamento de planos e turmas \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria, com base na documentação oficial de \citet{teachy_planejamento2026,teachy_ferramentas2026,magicschool_planos2026,magicschool_ferramentas2026,planbook_professores2026}.\end{minipage}
+\end{table}
+
+\subsection{Matriz AARR: análise da jornada de uso}
+O enunciado da disciplina solicita uma \emph{Matriz AARR}, mas não apresenta a definição de suas quatro letras. Para elaborar uma \textbf{versão preliminar explicitamente adaptada}, foram selecionadas quatro dimensões de jornada do usuário: \textbf{Aquisição}, \textbf{Ativação}, \textbf{Retenção} e \textbf{Recomendação}. A referência metodológica é o funil \textit{AARRR} (métricas piratas), cuja forma clássica compreende cinco dimensões, acrescentando \textbf{Receita} \citep{amazon_aarrr}. Neste relatório, a dimensão Receita não integra a matriz didática de quatro letras porque ainda não há modelo de monetização definido para o \textit{Aula em Dia}. \textbf{Essa interpretação precisa ser confirmada com o material da disciplina antes da entrega.}
+
+A comparação AARR descrita na Tabela~\ref{tab:matriz-aarr} é qualitativa. Mostra elementos da experiência anunciados pelos serviços e oportunidades previstas para o projeto, \textbf{sem atribuir taxas de conversão, retenção ou recomendação} a plataformas externas.
+
+\begin{table}[htbp]
+\centering
+\caption{Matriz AARR adaptada ao benchmarking do Aula em Dia}
+\label{tab:matriz-aarr}
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2cm}XX@{}}
+\toprule
+\textbf{Dimensão} & \textbf{Evidências documentais nas referências} & \textbf{Aplicação proposta ao Aula em Dia} \\
+\midrule
+Aquisição & Teachy e MagicSchool divulgam acesso inicial gratuito; Planbook apresenta período de avaliação de sua plataforma. & Página informativa objetiva, apresentação do benefício ao professor e caminho simples para cadastro. \\
+Ativação & Teachy descreve a criação do primeiro planejamento; MagicSchool apresenta geração de plano a partir de objetivos; Planbook permite configurar turmas e começar a planejar. & Fluxo guiado para cadastrar disciplina e turma e salvar o primeiro plano de aula, com opção de gerar rascunho por IA. \\
+Retenção & Teachy organiza aulas por calendário; Planbook permite copiar ou reaproveitar planejamentos; MagicSchool organiza ferramentas e coleções. & Histórico, edição e reutilização de planos, além de consulta por turma, disciplina e período. \\
+Recomendação & Planbook documenta compartilhamento de planos; MagicSchool possibilita compartilhar coleções de ferramentas; Teachy anuncia colaboração no planejamento. & Compartilhamento voluntário de planos selecionados, com permissões e proteção de dados. \\
+\bottomrule
+\end{tabularx}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize Fonte: elaboração própria, fundamentada em \citet{teachy_planejamento2026,teachy_ferramentas2026,magicschool_ferramentas2026,magicschool_planos2026,planbook_professores2026}.\end{minipage}
+\end{table}
+
+\subsection{Indicadores propostos para validação futura}
+Embora seja possível mapear oportunidades de produto sem acesso a dados privados das plataformas, a mensuração de AARR para o \textit{Aula em Dia} dependerá do desenvolvimento do sistema, da coleta legítima de informações e da autorização adequada dos participantes. Os indicadores a seguir são \textbf{propostas de avaliação}, ainda sem resultados reais:
+\begin{itemize}
+  \item \textbf{Aquisição:} número de participantes convidados que acessam a apresentação ou o protótipo e demonstram interesse em experimentar a plataforma.
+  \item \textbf{Ativação:} proporção de participantes que concluem com sucesso o fluxo de criação e salvamento de seu primeiro plano de aula durante um teste autorizado.
+  \item \textbf{Retenção:} proporção de participantes que, em uma avaliação longitudinal futura e consentida, retornam para consultar, editar ou criar novos planejamentos.
+  \item \textbf{Recomendação:} proporção de participantes que, após testar a solução, declaram que a recomendariam a outro educador (medição por questão voluntária, sem coleta desnecessária de contatos de terceiros).
+\end{itemize}
+Os quatro indicadores acima não devem ser apresentados como métricas já coletadas. Os instrumentos de coleta, eventuais registros de uso e o tratamento de dados deverão respeitar as exigências da pesquisa e a legislação aplicável.
+
+\subsection{Conclusões e oportunidades identificadas}
+A análise documental sugere quatro diretrizes preliminares para o \textit{Aula em Dia}: (i) tornar a criação de planos simples e revisável pelo professor; (ii) centralizar planejamentos por turma e período, favorecendo a organização; (iii) viabilizar a reutilização e adaptação de planejamentos anteriores; e (iv) considerar compartilhamento opcional com controle de acesso. A referência à BNCC pode ser pertinente caso a pesquisa confirme que ela integra a rotina e as necessidades dos professores participantes.
+
+Essas diretrizes são \textbf{hipóteses de requisitos}, a serem confrontadas com a pesquisa com usuários, Matriz CSD, histórias de usuário e protótipos. O benchmarking identifica possibilidades de projeto, mas não comprova aceitação, viabilidade de implementação nem superioridade em relação às plataformas comparadas.
